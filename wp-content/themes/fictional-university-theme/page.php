@@ -16,11 +16,21 @@
     </div>
 
     <div class="container container--narrow page-section">
-      <div class="metabox metabox--position-up metabox--with-home-link">
+    <?php
+    	$theParent = wp_get_post_parent_id(get_the_ID());
+    
+    	if($theParent) //get the id of parent page of current page. If doesn't have, then it will be 0.
+    	{?>
+    		<!--crumbbox will be shown iff it is within a child page.-->
+    	    <div class="metabox metabox--position-up metabox--with-home-link">
         <p>
-          <a class="metabox__blog-home-link" href="#"><i class="fa fa-home" aria-hidden="true"></i> Back to About Us</a> <span class="metabox__main">Our History</span>
+          <a class="metabox__blog-home-link" href="<?php echo get_permalink($theParent);?>"><i class="fa fa-home" aria-hidden="true"></i> Back to <?php echo get_the_title($theParent); ?></a> <span class="metabox__main"><?php echo the_title(); /*the title for pages*/?></span>
         </p>
       </div>
+    		
+    	<?php }
+    ?>
+  
 
 	<!--
       <div class="page-links">
