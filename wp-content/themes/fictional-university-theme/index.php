@@ -1,5 +1,16 @@
 <?php get_header(); ?>
 
+<?php 
+//To echo or not to echo:
+/*
+rule of thumb:
+
+If a wordpress begins with the word get, it will not going to echo anything for you.
+
+On the other hand, if a function begins with the word the , that means wordpress will indeed handle echoing and outputting it onto the page for you.
+*/
+ ?>
+
    <div class="page-banner">
       <div class="page-banner__bg-image" style="background-image: url(<?php echo get_theme_file_uri('/images/library-hero.jpg')// This wordpress function will generate the path to our theme folder all on its own. ?>)"></div>
       <div class="page-banner__content container t-center c-white">
