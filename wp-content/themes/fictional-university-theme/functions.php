@@ -20,9 +20,16 @@ add_action('wp_enqueue_scripts', 'university_files');	//frist argument here tell
 //second argument: our custom function
 
 function university_features() {
+//  register_nav_menu('headerMenuLocation', 'Header Menu Location'); //first argument: name for menu location second argument: text actually show up
+//  register_nav_menu('footerLocationOne', 'Footer Location One'); 
+  
+//    register_nav_menu('footerLocationTwo', 'Footer Location Two'); 
+  
   add_theme_support('title-tag');	//enable a feature for your theme: title-tag: This feature allows themes to add document title tag to HTML <head>.
+  
 }
 
 //Tell wordpress to automatically generate an appropriate title tag for each screen.
-add_action('after_setup_theme', 'university_features')
+add_action('after_setup_theme', 'university_features');
+
 ?>
