@@ -82,7 +82,7 @@ On the other hand, if a function begins with the word the , that means wordpress
 	   ?>
 
 
-          <p class="t-center no-margin"><a href="#" class="btn btn--yellow">View All Blog Posts</a></p>
+          <p class="t-center no-margin"><a href="<?php echo site_url('/blog');//to the blog page?>" class="btn btn--yellow">View All Blog Posts</a></p>
         </div>
       </div>
     </div>
