@@ -24,7 +24,7 @@
     		<!--crumbbox will be shown iff it is within a child page.-->
     	    <div class="metabox metabox--position-up metabox--with-home-link">
         <p>
-          <a class="metabox__blog-home-link" href="<?php echo get_permalink($theParent);?>"><i class="fa fa-home" aria-hidden="true"></i> Back to <?php echo get_the_title($theParent); ?></a> <span class="metabox__main"><?php echo the_title(); /*the title for pages*/?></span>
+          <a class="metabox__blog-home-link" href="<?php echo get_permalink($theParent);?>"><i class="fa fa-home" aria-hidden="true"></i> Back to <?php echo get_the_title($theParent);//back to the parent page ?></a> <span class="metabox__main"><?php echo the_title(); /*the title for pages*/?></span>
         </p>
       </div>
     		
