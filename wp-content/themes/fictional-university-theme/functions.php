@@ -29,7 +29,12 @@ function university_features() {
   
 }
 
+
+
+
 //Tell wordpress to automatically generate an appropriate title tag for each screen.
 add_action('after_setup_theme', 'university_features');
+
+
 
 ?>
