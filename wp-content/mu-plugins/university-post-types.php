@@ -2,8 +2,13 @@
 function university_post_types() {
  
 register_post_type('event',array(
+  'rewrite' => array('slug' => 'events'),//so we could use<domain>/events to visit all events here, rather than ../event
+
+  'has_archive' => true,
  
   'public' => true,
+  
+  'show_in_rest' => true,
  
   'labels' => array(
  

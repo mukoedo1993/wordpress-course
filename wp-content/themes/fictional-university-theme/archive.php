@@ -12,7 +12,7 @@ This is the generic blog listing screen template.
 
 get_header(); ?>
 	  <div class="page-banner"> <!--banner-->
-      <div class="page-banner__bg-image" style="background-image: url(<?php echo get_theme_file_uri('/images/ocean.jpg') ?>)"></div>
+      <div class="page-banner__bg-image" style="background-image: url(<?php echo get_theme_file_uri('/images/ocean.jpg'); ?>)"></div>
       <div class="page-banner__content container container--narrow">
         <h1 class="page-banner__title"><?php
       	the_archive_title(); //smartly deal with date, category or author archive. 	     
