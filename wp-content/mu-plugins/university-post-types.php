@@ -2,13 +2,17 @@
 function university_post_types() {
  
 register_post_type('event',array(
+
+  'supports' => array('title', 'editor' , 'excerpt'), //So we can modify event's excerpts. editor means we have modern editor.
+
   'rewrite' => array('slug' => 'events'),//so we could use<domain>/events to visit all events here, rather than ../event
 
   'has_archive' => true,
  
   'public' => true,
   
-  'show_in_rest' => true,
+  'show_in_rest' => true, //Our new editor in WP relies almost exclusively on JS, so
+  //order for it to work, we need to make sure that custom post type shows up within the rest API.
  
   'labels' => array(
  
