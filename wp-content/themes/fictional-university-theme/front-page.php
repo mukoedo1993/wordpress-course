@@ -27,10 +27,24 @@ On the other hand, if a function begins with the word the , that means wordpress
         <div class="full-width-split__inner">
           <h2 class="headline headline--small-plus t-center">Upcoming Events</h2>
 		<?php
+		$today = date('Ymd');
+		
 		 $homepageEvents = new WP_Query(array(
-		   'posts_per_page' => 2,
+		   'posts_per_page' => -1,
 		    'post_type' => 'event',
-		 ));
+		    'meta_key' => 'event_date' ,
+		    'orderby' => 'meta_value_num', //orderby number
+		    'order' => 'ASC',//'DESC' means descending, 'ASC' means ascending.
+		    'meta_query' => array(
+		      array(
+		      	'key' => 'event_date',//only today or future's
+		      	'compare' => '>=',
+		      	'value' => $today, //'Ymd' stands for today
+		      	'type' => 'numeric'
+		      )
+		    )
+		    
+		 ));//negative one means all posts fitting this requirements.
 		 
 		 while ($homepageEvents->have_posts()) {
 		  $homepageEvents->the_post();?>
