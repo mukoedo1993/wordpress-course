@@ -36,8 +36,11 @@ On the other hand, if a function begins with the word the , that means wordpress
 		  $homepageEvents->the_post();?>
 		            <div class="event-summary">
             <a class="event-summary__date t-center" href="#">
-              <span class="event-summary__month">Mar</span>
-              <span class="event-summary__day">25</span>
+              <span class="event-summary__month"><?php 
+               $eventDate = new DateTime(get_field('event_date')); //DateTime's ctor takes the date of event_date custom field.
+               echo $eventDate->format('M');	//Return the three-letter representation of Month.
+               ?></span>
+              <span class="event-summary__day"><?php echo $eventDate->format('d');	//Return the three-letter representation of Month. ?></span>
             </a>
             <div class="event-summary__content">
               <h5 class="event-summary__title headline headline--tiny"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h5>
