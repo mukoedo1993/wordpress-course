@@ -5,7 +5,7 @@ hello world
 
 
 <!--This file is used to power the URL'DOAMIN_NAME'/blog-->
-This is the generic blog listing screen template.
+This is the generic blog listing screen template. archive.php
 
 
 <?php
