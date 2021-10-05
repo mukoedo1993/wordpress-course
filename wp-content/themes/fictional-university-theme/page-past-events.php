@@ -40,9 +40,14 @@ $today = date('Ymd');
     
  ));
 
- //if we call have_posts & the_post functions directly within the while loop, we want to look up into pastEvents object.
-  while($pastEvents->have_posts()) {
-    $pastEvents->the_post(); ?>
+ //if we call have_posts & the_post functions directly within the while loop,
+ // we will see that the URL we are on is tied to a page,
+ // that one single event page is the only item being queried. 
+ //BUT we want to look up into pastEvents object.
+  while($pastEvents->
+  have_posts()) {
+    $pastEvents->
+    the_post(); ?>
        <div class="event-summary">
              <a class="event-summary__date t-center" href="#">
               <span class="event-summary__month"><?php 
