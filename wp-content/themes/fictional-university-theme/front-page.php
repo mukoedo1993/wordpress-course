@@ -30,7 +30,7 @@ On the other hand, if a function begins with the word the , that means wordpress
 		$today = date('Ymd');
 		
 		 $homepageEvents = new WP_Query(array(
-		   'posts_per_page' => -1,
+		   'posts_per_page' => 2, //if set as negative 1: all pages shown in one page
 		    'post_type' => 'event',
 		    'meta_key' => 'event_date' ,
 		    'orderby' => 'meta_value_num', //orderby number

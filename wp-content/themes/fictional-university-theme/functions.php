@@ -35,6 +35,31 @@ function university_features() {
 //Tell wordpress to automatically generate an appropriate title tag for each screen.
 add_action('after_setup_theme', 'university_features');
 
+function university_adjust_queries($query) { //WP's query
+	if (!is_admin() AND is_post_type_archive('event') AND $query->is_main_query()) { //not on the admin page; // so we will never accidentally manipulate a custom query.// only true if it is a url-based query, like: http://fictionaluniversity.local/events/
+	
+	//$query->set('posts_per_page', '1'); //this line is very powerful. It by default will work on ALL of our pages, even including our backend editing pages.
+	
+	$today = date('Ymd');
+	
+	$query->set('meta_key', 'event_date');
+	$query->set('orderby', 'meta_value_num');
+	
+	$query->set('order', 'ASC');
+	
+	$query->set('meta_query', array(
+		      array(
+		      	'key' => 'event_date',//only today or future's
+		      	'compare' => '>=',
+		      	'value' => $today, //'Ymd' stands for today
+		      	'type' => 'numeric'
+		      )
+		    ));
+	}
+
+}
 
 
+//manipulate event archive page:
+add_action('pre_get_posts', 'university_adjust_queries'); // pre_get_posts here let our function to get access to the query object.
 ?>
