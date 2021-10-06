@@ -26,6 +26,23 @@
     	
     	<div class="generic-content"><?php the_content();?></div>
     
+    	<?php
+    		
+    		
+    		$relatedPrograms = get_field('related_programs'); //get an array of related_programs
+    		if ($relatedPrograms) { //if the relatedPrograms is blank, it will be valuated as false.
+    		echo '<hr class="section-break">';
+    		echo '<h2 class="headline headline--medium">Related Program(s)</h2>';
+    		echo '<ul class="link-list min-list">';
+    		foreach($relatedPrograms as $program) {	?>
+    		 <li><a href="<?php echo get_the_permalink($program);//post object here. ?>"><?php echo get_the_title($program);?></a></li>
+    		<?php }
+    	
+    		echo '</ul>';
+    		
+    		}
+
+    	?>
     </div>
 	<hr><!--In real world, we use css to divide different parts.-->
 	<?php }

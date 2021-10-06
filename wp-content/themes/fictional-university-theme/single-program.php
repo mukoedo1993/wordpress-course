@@ -26,6 +26,59 @@ single-program.php is used here to render this page.
       </div>
     	
     	<div class="generic-content"><?php the_content();?></div>
+    	
+    	<!--recycling frontSLASHpageDOTphp custom query-->
+    	<?php
+		$today = date('Ymd');
+		
+		 $homepageEvents = new WP_Query(array(
+		   'posts_per_page' => 2, //if set as negative 1: all pages shown in one page
+		    'post_type' => 'event',
+		    'meta_key' => 'event_date' ,
+		    'orderby' => 'meta_value_num', //orderby number
+		    'order' => 'ASC',//'DESC' means descending, 'ASC' means ascending.
+		    'meta_query' => array(
+		    
+		    //this array is set for sorting events 
+		      array(
+		      	'key' => 'event_date',//only today or future's
+		      	'compare' => '>=',
+		      	'value' => $today, //'Ymd' stands for today
+		      	'type' => 'numeric'
+		      ),
+		      
+		      //this array is set for sorting programs
+		      array( //If the array of related_programs contains or like basically means contains the ID number of the current program post, 
+		      //then that's what we're looking for.
+		        'key' => 'related_programs',
+		        'compare' => 'LIKE',
+		        'value' => '"'.get_the_ID().'"'
+		      )
+		    )
+		    
+		 ));//negative one means all posts fitting this requirements.
+		 
+		 while ($homepageEvents->have_posts()) {
+		  $homepageEvents->the_post();?>
+		            <div class="event-summary">
+            <a class="event-summary__date t-center" href="#">
+              <span class="event-summary__month"><?php 
+               $eventDate = new DateTime(get_field('event_date')); //DateTime's ctor takes the date of event_date custom field.
+               echo $eventDate->format('M');	//Return the three-letter representation of Month.
+               ?></span>
+              <span class="event-summary__day"><?php echo $eventDate->format('d');	//Return the three-letter representation of Month. ?></span>
+            </a>
+            <div class="event-summary__content">
+              <h5 class="event-summary__title headline headline--tiny"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h5>
+              <p> <?php if (has_excerpt()) {
+                  echo get_the_excerpt(); //If we run the the_excerpt() function directly, WP will help us set some awkward vertical gaps.
+              } else {
+              	echo wp_trim_words(get_the_content(), 18); //fallback if we doesn't have 
+              } ?> <a href="<?php the_permalink(); ?>" class="nu gray">Learn more</a></p>
+            </div>
+          </div>
+		 <?php }
+		?>
     
     </div>
 	<hr><!--In real world, we use css to divide different parts.-->
