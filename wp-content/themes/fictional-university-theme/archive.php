@@ -4,7 +4,7 @@ https://codex.wordpress.org/Creating_an_Archive_Index
 hello world
 
 
-<!--This file is used to power the URL'DOAMIN_NAME'/blog-->
+<!--This file is used to power the URL'DOAMIN_NAME'/blog or a fallback page for other archives.-->
 This is the generic blog listing screen template. archive.php
 
 

@@ -36,7 +36,19 @@ function university_features() {
 add_action('after_setup_theme', 'university_features');
 
 function university_adjust_queries($query) { //WP's query
-	if (!is_admin() AND is_post_type_archive('event') AND $query->is_main_query()) { //not on the admin page; // so we will never accidentally manipulate a custom query.// only true if it is a url-based query, like: http://fictionaluniversity.local/events/
+
+	if (!is_admin() AND is_post_type_archive('program') AND is_main_query()) {
+	
+		//order alphabetically; override the default posts per page of 10 to infinity.
+		$query->set('orderby', 'title');
+		$query->set('order', 'ASC');
+		$query->set('posts_per_page', -1);
+	}
+
+
+
+
+	if (!is_admin() AND is_post_type_archive('event') AND $query->is_main_query()) { //not on the admin page; // so we will never accidentally manipulate a custom query.// only true if it is a url-based query, like, here: http://fictionaluniversity.local/events/
 	
 	//$query->set('posts_per_page', '1'); //this line is very powerful. It by default will work on ALL of our pages, even including our backend editing pages.
 	

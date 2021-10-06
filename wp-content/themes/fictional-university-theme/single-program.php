@@ -1,4 +1,6 @@
-SINGLE_PHP_HERE!
+single-program.php is used here to render this page.
+
+
 <?php //After you click a post's permalink, you would view this page.
 	
 	get_header();	
@@ -19,7 +21,7 @@ SINGLE_PHP_HERE!
     <div class="container container--narrow page-section">
     	<div class="metabox metabox--position-up metabox--with-home-link">
         <p>
-          <a class="metabox__blog-home-link" href="<?php echo site_url('/blog'); //this argument ensures that the URL we generate here is absolute rather than relative.?>"><i class="fa fa-home" aria-hidden="true"></i> Blog Home</a> <span class="metaxbox__main">Posted by <?php the_author_posts_link(); //the link to all posts of the current author?> on <?php the_time('n.j.y'); ?> in <?php echo get_the_category_list(', ');/*comma stands for the separating char here.*/ ?>&nbsp; </span>
+          <a class="metabox__blog-home-link" href="<?php echo get_post_type_archive_link('program');  //get the archive link for this post type, here, event.?>"><i class="fa fa-home" aria-hidden="true"></i> All Programs</a> <span class="metaxbox__main"><?php the_title();?> </span>
         </p>
       </div>
     	
@@ -31,3 +33,4 @@ SINGLE_PHP_HERE!
 	
 	get_footer();
 ?>
+
