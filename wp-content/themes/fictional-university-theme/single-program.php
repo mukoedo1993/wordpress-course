@@ -31,7 +31,9 @@ single-program.php is used here to render this page.
     	<?php
 		$today = date('Ymd');
 		
-		 $homepageEvents = new WP_Query(array(
+		
+		 $homepageEvents = new WP_Query(
+		 array(
 		   'posts_per_page' => 2, //if set as negative 1: all pages shown in one page
 		    'post_type' => 'event',
 		    'meta_key' => 'event_date' ,
@@ -39,7 +41,7 @@ single-program.php is used here to render this page.
 		    'order' => 'ASC',//'DESC' means descending, 'ASC' means ascending.
 		    'meta_query' => array(
 		    
-		    //this array is set for sorting events 
+		    //this array is set for sorting events so that we only show today or future's events.
 		      array(
 		      	'key' => 'event_date',//only today or future's
 		      	'compare' => '>=',
@@ -58,27 +60,32 @@ single-program.php is used here to render this page.
 		    
 		 ));//negative one means all posts fitting this requirements.
 		 
-		 while ($homepageEvents->have_posts()) {
-		  $homepageEvents->the_post();?>
-		            <div class="event-summary">
-            <a class="event-summary__date t-center" href="#">
-              <span class="event-summary__month"><?php 
-               $eventDate = new DateTime(get_field('event_date')); //DateTime's ctor takes the date of event_date custom field.
-               echo $eventDate->format('M');	//Return the three-letter representation of Month.
-               ?></span>
-              <span class="event-summary__day"><?php echo $eventDate->format('d');	//Return the three-letter representation of Month. ?></span>
-            </a>
-            <div class="event-summary__content">
-              <h5 class="event-summary__title headline headline--tiny"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h5>
-              <p> <?php if (has_excerpt()) {
-                  echo get_the_excerpt(); //If we run the the_excerpt() function directly, WP will help us set some awkward vertical gaps.
-              } else {
-              	echo wp_trim_words(get_the_content(), 18); //fallback if we doesn't have 
-              } ?> <a href="<?php the_permalink(); ?>" class="nu gray">Learn more</a></p>
-            </div>
-          </div>
-		 <?php }
-		?>
+if ($homepageEvents->have_posts()) { 
+   echo '<hr class="section-break">';
+   echo '<h2 class="headline headline--medium">Upcoming ' . get_the_title(). ' Events</h2>';
+	 
+	 while ($homepageEvents->have_posts()) {
+	  $homepageEvents->the_post();?>
+		    <div class="event-summary">
+	<a class="event-summary__date t-center" href="#">
+	<span class="event-summary__month"><?php 
+	$eventDate = new DateTime(get_field('event_date')); //DateTime's ctor takes the date of event_date custom field.
+	echo $eventDate->format('M');	//Return the three-letter representation of Month.
+	?></span>
+	<span class="event-summary__day"><?php echo $eventDate->format('d');	//Return the three-letter representation of Month. ?></span>
+	</a>
+	<div class="event-summary__content">
+	<h5 class="event-summary__title headline headline--tiny"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h5>
+	<p> <?php if (has_excerpt()) {
+	  echo get_the_excerpt(); //If we run the the_excerpt() function directly, WP will help us set some awkward vertical gaps.
+	} else {
+	echo wp_trim_words(get_the_content(), 18); //fallback if we doesn't have 
+	} ?> <a href="<?php the_permalink(); ?>" class="nu gray">Learn more</a></p>
+	</div>
+	</div>
+	 <?php }
+			}
+			?>
     
     </div>
 	<hr><!--In real world, we use css to divide different parts.-->

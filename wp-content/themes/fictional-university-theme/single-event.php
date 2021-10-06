@@ -1,5 +1,5 @@
 <!--for single event post. -->
-
+singleSLASHeventDOTphp
 <?php //After you click a post's permalink, you would view this page.
 	
 	get_header();	
