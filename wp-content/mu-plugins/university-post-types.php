@@ -63,9 +63,35 @@ register_post_type('event',array(
   'menu_icon' => 'dashicons-awards' //dashicons-awards
  
 ));
+
+
+#  Professor Post Type 
+ register_post_type('professor',array(
+
+
+  'supports' => array('title', 'editor' ),
+
+  //'rewrite' => array('slug' => 'professors'), //we do not need to rewrite the slug(url)
+
+  //'has_archive' is not needed here. Because professor doesn't need archive.
+ 
+  'public' => true,
+  
+  'show_in_rest' => true, 
+  'labels' => array(
+ 
+    'name' => 'Professors',
+    'add_new_item' => 'Add New Professor',
+    'edit_item' => 'Edit Professor',
+    'all_items' => 'All Professor',
+    'singular_name' => 'Professor'
+ 
+  ), 
+ 
+  'menu_icon' => 'dashicons-welcome-learn-more' 
+ 
+));
 }
  
- 
-//create a new post type:
 add_action('init', 'university_post_types');
 ?>

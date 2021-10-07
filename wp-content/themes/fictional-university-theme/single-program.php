@@ -2,7 +2,7 @@ single-program.php is used here to render this page.
 
 
 <?php //After you click a post's permalink, you would view this page.
-	
+	the_ID();
 	get_header();	
 	
 	while(have_posts()) {
@@ -10,7 +10,7 @@ single-program.php is used here to render this page.
 	<div class="page-banner">
       <div class="page-banner__bg-image" style="background-image: url(<?php echo get_theme_file_uri('/images/ocean.jpg') ?>)"></div>
       <div class="page-banner__content container container--narrow">
-        <h1 class="page-banner__title"><?php the_title();/*title function*/?></h1>
+        <h1 class="page-banner__title"><?php the_title();/*title function*/ ?></h1>
         <div class="page-banner__intro">
           <p>DONT FORGET TO REPLACE ME LATER</p>
         </div>
@@ -27,8 +27,41 @@ single-program.php is used here to render this page.
     	
     	<div class="generic-content"><?php the_content();?></div>
     	
-    	<!--recycling frontSLASHpageDOTphp custom query-->
+    	
     	<?php
+    	
+    	 $relatedProfessors = new WP_Query(
+		 array(
+		   'posts_per_page' => -1, //pull back all associated professors
+		    'post_type' => 'professor',
+		    //'meta_key' is not needed to order by here
+		    'orderby' => 'meta_value_num', //orderby number
+		    'order' => 'ASC',//'DESC' means descending, 'ASC' means ascending.
+		    'meta_query' => array(
+		      
+		      //this array is set for sorting programs
+		      array( //If the array of related_programs contains or like basically means contains the ID number of the current program post, 
+		      //then that's what we're looking for.
+		        'key' => 'related_programs',
+		        'compare' => 'LIKE',
+		        'value' => '"'.get_the_ID().'"'
+		      )
+		    )
+		    
+		 ));//negative one means all posts fitting this requirements.
+		 
+if ($relatedProfessors->have_posts()) { 
+   echo '<hr class="section-break">';
+   echo '<h2 class="headline headline--medium">' . get_the_title(). ' Professors</h2>';
+	 
+	 while ($relatedProfessors->have_posts()) {
+	  $relatedProfessors->the_post();?>
+		<li><a href="<?php the_permalink(); ?>"><?php the_title(); the_ID(); ?></a></li>
+	 <?php }
+			}
+    	
+    		wp_reset_postdata();
+    	
 		$today = date('Ymd');
 		
 		
