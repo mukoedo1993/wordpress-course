@@ -69,7 +69,7 @@ register_post_type('event',array(
  register_post_type('professor',array(
 
 
-  'supports' => array('title', 'editor' ),
+  'supports' => array('title', 'editor', 'thumbnail' ), //thumbnail to enable featured image for the post type: Professors
 
   //'rewrite' => array('slug' => 'professors'), //we do not need to rewrite the slug(url)
 

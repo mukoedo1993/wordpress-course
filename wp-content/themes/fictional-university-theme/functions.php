@@ -27,6 +27,11 @@ function university_features() {
   
   add_theme_support('title-tag');	//enable a feature for your theme: title-tag: This feature allows themes to add document title tag to HTML <head>.
   
+   add_theme_support('post-thumbnails');
+   
+   add_image_size('professorLandscape', 400, 260, true); //name , wide, tall, crop or not.
+   
+   add_image_size('professorPortrait', 480, 650, true);
 }
 
 
