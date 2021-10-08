@@ -1,19 +1,18 @@
+pageDOTPhp
 <?php //For single page.
 
 	get_header();	
 	
 	while(have_posts()) {
-	the_post(); ?>
+	the_post(); 
+	pageBanner(
+	//array(
+	  //'title' => 'Hello there this is the title',
+	 // 'photo' => 'https://upload.wikimedia.org/wikipedia/commons/4/44/Flag_of_the_Second_East_Turkestan_Republic.svg'
+	//)
+	);?>
 	<!--interior-page.html line 39 to line 68.-->
-	  <div class="page-banner">
-      <div class="page-banner__bg-image" style="background-image: url(<?php echo get_theme_file_uri('/images/ocean.jpg') ?>)"></div>
-      <div class="page-banner__content container container--narrow">
-        <h1 class="page-banner__title"><?php the_title();/*title function*/?></h1>
-        <div class="page-banner__intro">
-          <p>DONT FORGET TO REPLACE ME LATER</p>
-        </div>
-      </div>
-    </div>
+	 
 
     <div class="container container--narrow page-section">
     <?php
