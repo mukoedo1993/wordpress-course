@@ -25,7 +25,7 @@ single-professor.php
 	    	<div class="row group">
 	    	<!--1:2 layout-->
 		    	<div class="one-third">
-		    	  <?php the_post_thumbnail(); ?>
+		    	  <?php the_post_thumbnail('professorPortrait'); //nickname of our image size is?>
 		    	</div>
 		    	
 		    	<div class="two-thirds">
