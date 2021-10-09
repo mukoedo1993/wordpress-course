@@ -5,16 +5,11 @@ singleSLASHeventDOTphp
 	get_header();	
 	
 	while(have_posts()) {
-	the_post(); ?>
-	<div class="page-banner">
-      <div class="page-banner__bg-image" style="background-image: url(<?php echo get_theme_file_uri('/images/ocean.jpg') ?>)"></div>
-      <div class="page-banner__content container container--narrow">
-        <h1 class="page-banner__title"><?php the_title();/*title function*/?></h1>
-        <div class="page-banner__intro">
-          <p>DONT FORGET TO REPLACE ME LATER</p>
-        </div>
-      </div>
-    </div>
+	the_post();
+	
+	pageBanner(); //Notice that we don't need any arguments here.
+	 ?>
+
     
     
     <div class="container container--narrow page-section">

@@ -10,7 +10,9 @@ function pageBanner($args = NULL /*default argument*/) {
   }
   
     if (!$args['photo']) {
-      if (get_field('page_banner_background_image')) {
+      if (get_field('page_banner_background_image') AND !is_archive() AND !is_home() ) {
+      //If we don't add !is_archive and !is_home here, then, if the first event in the list of events
+      //has a BG image our code can get confused and try to use it as the banner for the entire Archive page.
       	$args['photo'] = get_field('page_banner_background_image')['sizes']['pageBanner'];
       } else {
       	$args['photo'] = get_theme_file_uri('/images/ocean.jpg');

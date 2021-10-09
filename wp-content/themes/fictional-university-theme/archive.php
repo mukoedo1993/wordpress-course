@@ -5,24 +5,21 @@ hello world
 
 
 <!--This file is used to power the URL'DOAMIN_NAME'/blog or a fallback page for other archives.-->
+<!--'DOMAIN_NAME/'AUTHOR_NAME'/blog'-->
+<!--'DOMAIN_NAME/'CATEGORY_NAME''-->
 This is the generic blog listing screen template. archive.php
 
 
 <?php
+get_header(); 
+pageBanner(array(
+   'title' => get_the_archive_title(),
+   'subtitle' => get_the_archive_description()
+));
+?>
 
-get_header(); ?>
-	  <div class="page-banner"> <!--banner-->
-      <div class="page-banner__bg-image" style="background-image: url(<?php echo get_theme_file_uri('/images/ocean.jpg'); ?>)"></div>
-      <div class="page-banner__content container container--narrow">
-        <h1 class="page-banner__title"><?php
-      	the_archive_title(); //smartly deal with date, category or author archive. 	     
-        ?></h1>
-        <div class="page-banner__intro">
-          <p><?php the_archive_description();?></p>
-        </div>
-      </div>
-    </div>
-    
+
+
 <div class="container container--narrow page-section">	<!--A container div that our blog posts can live in.-->
 <?php 
   while(have_posts()) {
