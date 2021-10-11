@@ -4,6 +4,7 @@ class Search {
 	
 	// 1. describe and create/initiate our object
 	constructor() {
+	  this.resultsDiv = $("#search-overlay__results");
 	
 	  this.openButton = $(".js-search-trigger");
 	  this.closeButton = $(".search-overlay__close");
@@ -11,6 +12,11 @@ class Search {
 	  this.searchField =  $("#search-term");
 	  this.events();
 	  this.isOverlayOpen = false;
+	  
+	  this.isSpinnerVisible = false;
+	  
+	  this.previousValue;
+	  
 	  this.typingTimer;
 	}
 	
@@ -21,22 +27,44 @@ class Search {
 	  
 	  $(document).on("keydown", this.keyPressDispatcher.bind(this));
 	  
-	  this.searchField.on("keydown", this.typingLogic.bind(this));//If we don't bind this, then, contextually, typingLogic's this keyword will point to thisDOTsearchField. 
+	  this.searchField.on("keyup", this.typingLogic.bind(this));//If we don't bind this, then, contextually, typingLogic's this keyword will point to thisDOTsearchField. 
 	}
 	
 	
 	// 3. methods (function, action...)
 	typingLogic() {
+	 	if (this.searchField.val() != this.previousValue) {
+		 	clearTimeout(this.typingTimer);
+		 	
+		 	if (this.searchField.val()) {
+		         if (!this.isSpinnerVisible) {
+			 	this.resultsDiv.html('<div class="spinner-loader"></div>');
+			 	this.isSpinnerVisible = true;
+	 	}
+			this.typingTimer = setTimeout(this.getResults.bind(this), 2000);
+		 		
+		 	} else {
+		 	   this.resultsDiv.html('');
+		 	   this.isSpinnerVisible = false;
+		 	}
+		 	
+	 	}
 	 	
-	 	clearTimeout(this.typingTimer);
-		this.typingTimer = setTimeout(function () {console.log("This is a timeout test");}, 2000);
+
+		this.previousValue = this.searchField.val();
+	}
+	
+	
+	getResults() {
+	  this.resultsDiv.html("Imagine real search results here...");
+	  this.isSpinnerVisible = false;
 	}
 	
 	
 	keyPressDispatcher(e) {
 	  
 	
-	  if (e.keyCode == 83 && !this.isOverlayOpen) {
+	  if (e.keyCode == 83 && !this.isOverlayOpen && !$("input, textarea").is(':focus')) { //If any field is currently focus, this will be valuated as false
 	    this.openOverlay();
 	  }
 	  
