@@ -48,7 +48,16 @@ wp_enqueue_style('custom-google-fonts', '//fonts.googleapis.com/css?family=Robot
 wp_enqueue_style('font-awesome', 'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');  //fix the icon of 'Connect With Us' part
 wp_enqueue_style('university_main_styles', get_theme_file_uri('/build/style-index.css')); 
 wp_enqueue_style('university_extra_styles', get_theme_file_uri('/build/index.css')); 
-}//get_stylesheet_uri() if it is the 2nd argument, then , it mains merely load main.css file.
+
+
+ #a WP function that allows us to output JS data into HTML source of the webpage.
+   wp_localize_script('main-university-js', 'universityData', array(
+    'root_url' => get_site_url()
+   )); //first argument: the JS file you are trying to make flexible. second 
+   //argument: variable name, third argument: array of data we want to make available in JS.
+
+}
+//get_stylesheet_uri() if it is the 2nd argument, then , it mains merely load main.css file.
 
 add_action('wp_enqueue_scripts', 'university_files');	//frist argument here tells to load css or js files
 //second argument: our custom function
@@ -68,6 +77,9 @@ function university_features() {
    add_image_size('professorPortrait', 480, 650, true);
    
    add_image_size('pageBanner', 1500, 350, true);
+   
+   
+  
 }
 
 
