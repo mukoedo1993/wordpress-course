@@ -4,7 +4,7 @@
 # http://fictionaluniversity.local/wp-json/university/v1/search
 add_action('rest_api_init', 'universityRegisterSearch');
 
-function universityRegisterSearch() {
+function universityRegisterSearch() { 
 	register_rest_route('university/v1', 'search', array(
 	'methods' => WP_REST_SERVER::READABLE,//Read data. A WP constant for set
 	'callback' => 'universitySearchResults' //the value here is exactly the return value of function universitySearchResults
@@ -14,10 +14,12 @@ function universityRegisterSearch() {
 }
 
 
-function universitySearchResults() {
+function universitySearchResults($data) { //WP could access the data here
 	$professors = new WP_query(array(
-	'post_type' => 'professor'
-	));
+	'post_type' => 'professor',
+	's' => sanitize_text_field($data['term']) //s stands for search here. We need to sanitize the input here.
+	)); //e.g.: http://fictionaluniversity.local/wp-json/university/v1/search?term=barksalot
+	//search with the keyword of barksalot
 	
 	$professorResults = array();
 	
