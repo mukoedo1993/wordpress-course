@@ -15,23 +15,53 @@ function universityRegisterSearch() {
 
 
 function universitySearchResults($data) { //WP could access the data here
-	$professors = new WP_query(array(
-	'post_type' => 'professor',
+	$mainQuery = new WP_query(array(
+	'post_type' => array('post', 'page', 'professor','program','event'),
 	's' => sanitize_text_field($data['term']) //s stands for search here. We need to sanitize the input here.
 	)); //e.g.: http://fictionaluniversity.local/wp-json/university/v1/search?term=barksalot
 	//search with the keyword of barksalot
 	
-	$professorResults = array();
+	$results = array(
+		'generalInfo' => array(),
+		'professors' => array(),
+		'programs' => array(),
+		'events' => array()
+	);
 	
-	while($professors->have_posts()) {
-		$professors->the_post();
-		array_push($professorResults, array(
-		'title' => get_the_title(),
-		'permalink' => get_the_permalink()
+	while($mainQuery->have_posts()) {
+		$mainQuery->the_post();
+		
+		if (get_post_type() == 'post' or get_post_type()== 'page') {
+		  array_push($results['generalInfo'], array(
+		  'title' => get_the_title(),
+		  'permalink' => get_the_permalink()
 		)); //first argument: destination array; second argument: what we want to add on the first array
+		}
+		
+		if (get_post_type() == 'professor') {
+		  array_push($results['professors'], array(
+		  'title' => get_the_title(),
+		  'permalink' => get_the_permalink()
+		)); //first argument: destination array; second argument: what we want to add on the first array
+		}
+		
+		if (get_post_type() == 'program') {
+		  array_push($results['programs'], array(
+		  'title' => get_the_title(),
+		  'permalink' => get_the_permalink()
+		)); //first argument: destination array; second argument: what we want to add on the first array
+		}
+		
+		if (get_post_type() == 'event') {
+		  array_push($results['events'], array(
+		  'title' => get_the_title(),
+		  'permalink' => get_the_permalink()
+		)); //first argument: destination array; second argument: what we want to add on the first array
+		}
+
 	}
 	
-	return $professorResults;
+	return $results;
 	
 	//Here, wordpress will convert this array into a JS array.
 }
