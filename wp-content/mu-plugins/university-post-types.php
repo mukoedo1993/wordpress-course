@@ -68,6 +68,7 @@ register_post_type('event',array(
 #  Professor Post Type 
  register_post_type('professor',array(
 
+  'show_in_rest' => true, //to show this URL, professor, in our customized rest API(in course 70th)
 
   'supports' => array('title', 'editor', 'thumbnail' ), //thumbnail to enable featured image for the post type: Professors
 
