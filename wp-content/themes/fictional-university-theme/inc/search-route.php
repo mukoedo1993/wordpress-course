@@ -34,7 +34,9 @@ function universitySearchResults($data) { //WP could access the data here
 		if (get_post_type() == 'post' or get_post_type()== 'page') {
 		  array_push($results['generalInfo'], array(
 		  'title' => get_the_title(),
-		  'permalink' => get_the_permalink()
+		  'permalink' => get_the_permalink(),
+		  'postType'=> get_post_type(),
+		  'authorName' => get_the_author()
 		)); //first argument: destination array; second argument: what we want to add on the first array
 		}
 		

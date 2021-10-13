@@ -58,22 +58,31 @@ class Search {
 	
 	
 	getResults() {
-	//async:
-		$.when($.getJSON/*Use Javascript to send out a request to the URL.*/(universityData.root_url + '/wp-json/wp/v2/posts?search=' + this.searchField.val()),
-		$.getJSON(universityData.root_url + '/wp-json/wp/v2/pages?search=' + this.searchField.val())
-		).then((posts, pages) => {
-				 var combinedResults = posts[0].concat(pages[0]); //posts array: first item is the actual JSON data; second item: whether succeeed or failed.
-		   		  this.resultsDiv.html(`
-		  	<h2 class="search-overlay__section-title">General Information</h2>
-		  	
-		  	${combinedResults.length ? '<ul class="link-list min-list">' : '<p>No general information matches that match.</p>'}
-		  	  ${combinedResults.map(item => `<li><a href="${item.link}">${item.title.rendered}</a> ${item.type == 'post'? `by ${item.authorName}` : '' }</li>`).join('')}
-		  	${combinedResults.length ? '</ul>' : ''}
-		  `);
-		  this.isSpinnerVisible = false;
-		}, () => {
-		  this.resultsDiv.html('<p>Unexpected error, please try again.</p>'); //error caught
+		$.getJSON(universityData.root_url + '/wp-json/university/v1/search?term=' + this.searchField.val(), (results) => {
+		 this.resultsDiv.html(`
+		 <div class="rpw">
+		 	<div class="one-third">
+		 		<h2 class="search-overlay__section-title">General Information</h2>
+		 		 ${results.generalInfo.length ? '<ul class="link-list min-list">' : '<p>No general information matches that match.</p>'}
+		  	 	 ${results.generalInfo.map(item => `<li><a href="${item.permalink}">${item.title}</a> ${item.postType == 'post'? `by ${item.authorName}` : '' }</li>`).join('')}
+		  		${results.generalInfo.length ? '</ul>' : ''}
+		 	</div>
+		 	<div class="one-third">
+		 		<h2 class="search-overlay__section-title">Programs</h2>
+		 		 ${results.programs.length ? '<ul class="link-list min-list">' : `<p>No programs information match.<a href="${universityData.root_url}/programs">View all programs.</a></p>`}
+		  	 	 ${results.programs.map(item => `<li><a href="${item.permalink}">${item.title}</a></li>`).join('')}
+		  		${results.programs.length ? '</ul>' : ''}
+		 		
+		 		<h2 class="search-overlay__section-title">Professors</h2>
+		 	</div>
+		 	<div class="one-third">
+		 		<h2 class="search-overlay__section-title"> Events</h2>
+		 	</div>
+		 </div>
+		 `);
+		  this.isSpinnerVisible = false; //fix the spinning icon after you change typed value.
 		});
+	
 	}
 	
 	
