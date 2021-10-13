@@ -1,0 +1,6 @@
+Quick Note About The Next Lesson
+In the next lesson you’ll notice the old WordPress edit-post screen because that portion of the video was filmed before the modern editor was released. 
+However, by the end of the lesson we remove “editor” from the “supports” array for the Programs post type, and when WordPress doesn’t see ‘editor’ supported
+for a post type it
+will fallback to the classic edit screen anyways. Essentially, if your edit-post screen doesn't look exactly like mine for the entirety of the video
+it's not an issue. Thanks!
