@@ -93,26 +93,45 @@ function universitySearchResults($data) { //WP could access the data here
 		
 		
 		$programRelationshipQuery = new WP_Query( array(
-		  'post_type' => 'professor',
+		  'post_type' => array('professor', 'event'),//query now will contain event and professor posts.
 		  'meta_query' => $programsMetaQuery
 		));
 		
 		#Loop through this query above and push each of the results onto
 		while($programRelationshipQuery->have_posts()) {
 		  $programRelationshipQuery->the_post();
-		  
+		
+		#Event type:
+		if (get_post_type() == 'event') {
+		  $eventDate = new DateTime(get_field('event_date'));
+		  $description = null; 
+	  	if (has_excerpt()) {	//to create a new property named description here.
+          	$description = get_the_excerpt();
+      		} else {
+      		$description = wp_trim_words(get_the_content(), 18); //fallback if we doesn't have 
+      		}
+		
+		  array_push($results['events'], array(
+		  'title' => get_the_title(),
+		  'permalink' => get_the_permalink(),
+		  'month' => $eventDate->format('M'),
+		  'day' => $eventDate->format('d'),
+		  'description' => $description 
+		));}
+		
+		
+		# professor type:
 		if (get_post_type() == 'professor') {
 		  array_push($results['professors'], array(
 		  'title' => get_the_title(),
 		  'permalink' => get_the_permalink(),
 		  'image' => get_the_post_thumbnail_url(0, 'professorLandscape')
 		)); //first argument: destination array; second argument: what we want to add on the first array
-			}
-		  
-		}
+		}}
 		#array_unique: remove duplication in our array:
 		#array_values: https://www.php.net/manual/en/function.array-values
 		$results['professors'] = array_values(array_unique($results['professors'], SORT_REGULAR));
+		$results['events'] = array_values(array_unique($results['events'], SORT_REGULAR));
 		//SORT_REGULAR means please look at each subitem of array to determine if they are duplicate or not.
 		
 		
