@@ -39,7 +39,7 @@ register_post_type('event',array(
 
 # Event Post Type
 
-  'supports' => array('title', 'editor' ), //So we can modify event's excerpts. editor means we have modern editor. We dont need excerpt here.
+  'supports' => array('title'/*, 'editor' */), //So we can modify event's excerpts. editor means we have modern editor. We dont need excerpt here. //Update: since course 78th, we don't need editor anymore.
 
   'rewrite' => array('slug' => 'programs'),//so we could use<domain>/events to visit all events here, rather than ../event
 
