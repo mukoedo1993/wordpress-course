@@ -4,7 +4,10 @@ function university_post_types() {
 register_post_type('event',array(
 
 # Event Post Type
-
+	
+  'capability_type' => 'event', //By default, it is event, so we need to overwrite it as event here.
+  'map_meta_cap' => true,//force the former line of code to execute
+  
   'supports' => array('title', 'editor' , 'excerpt'), //So we can modify event's excerpts. editor means we have modern editor.
 
   'rewrite' => array('slug' => 'events'),//so we could use<domain>/events to visit all events here, rather than ../event
