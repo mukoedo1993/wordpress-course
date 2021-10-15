@@ -1,4 +1,7 @@
 <?php
+//https://developer.wordpress.org/reference/functions/register_post_type/
+
+
 function university_post_types() {
  
 register_post_type('event',array(
@@ -93,6 +96,36 @@ register_post_type('event',array(
   ), 
  
   'menu_icon' => 'dashicons-welcome-learn-more' 
+ 
+));
+
+
+
+#  Note Post Type 
+ register_post_type('note',array(
+
+  'show_in_rest' => true, //to show this URL, note, in our customized rest API(in course 86th)
+
+  'supports' => array('title', 'editor' ), //thumbnail to enable featured image for the post type: Professors
+
+  //'rewrite' => array('slug' => 'professors'), //we do not need to rewrite the slug(url)
+
+  //'has_archive' is not needed here. Because professor doesn't need archive.
+ 
+  'public' => false,
+  
+  'show_ui' => true, 
+  'labels' => array(
+ 
+    'name' => 'Notes',
+    'add_new_item' => 'Add New Note',
+    'edit_item' => 'Edit Note',
+    'all_items' => 'All Note',
+    'singular_name' => 'Note'
+ 
+  ), 
+ 
+  'menu_icon' => 'dashicons-welcome-write-blog' 
  
 ));
 }
