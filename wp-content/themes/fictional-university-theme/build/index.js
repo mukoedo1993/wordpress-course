@@ -5978,7 +5978,7 @@ class Search {
     setTimeout(() => this.searchField.focus(), 301);
     console.log("our open method just ran!");
     this.isOverlayOpen = true;
-    return false;
+    return false; //Here, we will prevent default behavior of anchor element to redirect you to the new URL.
   }
 
   closeOverlay() {
