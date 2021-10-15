@@ -140,4 +140,54 @@ function university_adjust_queries($query) { //WP's query
 
 //manipulate event archive page:
 add_action('pre_get_posts', 'university_adjust_queries'); // pre_get_posts here let our function to get access to the query object.
+
+//  redirect subscriber account out of admin and onto homepage
+add_action('admin_init', 'redirectSubsToFrontend');
+
+function redirectSubsToFrontend() {
+  $ourCurrentUser = wp_get_current_user();
+  
+  if (count($ourCurrentUser->roles) == 1 and $ourCurrentUser->roles[0] == 'subscriber') {
+    wp_redirect(site_url('/'));//This will work even if we typed <domain-name>/wp-admin manually.
+    exit; //tells PHP stop spinning its gears once it redirects sb.
+  }
+
+}
+
+
+//  redirect subscriber account out of admin and onto homepage
+add_action('wp_loaded', 'noSubsAdminBar');
+
+function noSubsAdminBar() {
+  $ourCurrentUser = wp_get_current_user();
+  
+  if (count($ourCurrentUser->roles) == 1 and $ourCurrentUser->roles[0] == 'subscriber') {
+	show_admin_bar(false); //unsets the display of the admin bar.
+  }
+
+}
+
+# Customize Login Screen
+add_filter('login_headerurl', 'ourHeaderUrl'); //the WP logo will redirect us to the homepage
+
+function ourHeaderUrl() {
+ return esc_url(site_url('/'));
+}
+
+add_action('login_enqueue_scripts', 'ourLoginCSS');
+
+#customize CSS:
+function ourLoginCSS() {
+wp_enqueue_style('custom-google-fonts', '//fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700,700i|Roboto:100,300,400,400i,700,700i');//To make the text to use a custom font rather than a generic one
+wp_enqueue_style('font-awesome', 'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');  //fix the icon of 'Connect With Us' part
+wp_enqueue_style('university_main_styles', get_theme_file_uri('/build/style-index.css')); 
+wp_enqueue_style('university_extra_styles', get_theme_file_uri('/build/index.css')); 
+}
+
+
+add_filter('login_headertitle', 'ourLoginTitle'); //customize the title of header of our login page.
+
+function ourLoginTitle() {
+  return get_bloginfo('name');
+}
 ?>
