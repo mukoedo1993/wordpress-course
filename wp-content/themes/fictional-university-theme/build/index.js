@@ -5862,30 +5862,61 @@ __webpack_require__.r(__webpack_exports__);
 
 class MyNotes {
   constructor() {
-    this.deleteButton = document.querySelector(".delete-note");
+    this.deleteButton = document.querySelectorAll(".delete-note");
+    this.editButton = document.querySelectorAll(".edit-note");
     this.events();
   }
 
   events() {
-    this.deleteButton.addEventListener("click", () => {
-      this.deleteNote();
-    });
+    for (var i = 0; i < this.deleteButton.length; i++) {
+      //https://stackoverflow.com/questions/27946703/javascript-foreach-add-addeventlistener-on-all-buttons/27947429
+      this.deleteButton[i].addEventListener("click", e => {
+        this.deleteNote(e);
+      });
+    }
+
+    for (var j = 0; j < this.deleteButton.length; j++) {
+      this.editButton[j].addEventListener("click", e => {
+        this.editNote(e);
+      });
+    }
   } // Methods will go here
 
 
-  async deleteNote() {
-    const response = await axios__WEBPACK_IMPORTED_MODULE_0___default()["delete"](universityData.root_url + '/wp-json/wp/v2/note/116', {
+  async editNote(e) {
+    var thisNote = e.target.parentElement;
+    var temp = thisNote.querySelectorAll('.note-title-field, .note-body-field');
+
+    for (var k = 0; k < temp.length; k++) {
+      temp[k].removeAttribute("readonly");
+      temp[k].classList.add("note-active-field");
+    }
+
+    var temp1 = thisNote.querySelectorAll('.update-note');
+
+    for (var s = 0; s < temp1.length; s++) {
+      temp1[s].classList.add("update-note--visible");
+    }
+  }
+
+  async deleteNote(e) {
+    var thisNote = e.target.parentElement;
+    const response = await axios__WEBPACK_IMPORTED_MODULE_0___default()["delete"](`${universityData.root_url}/wp-json/wp/v2/note/${thisNote.getAttribute('data-id')}`, {
       headers: {
         'X-WP-Nonce': universityData.nonce
       }
     }) //Authorization here.
     .then(response => {
-      console.log("Congrats");
+      this.fadeOut(thisNote);
       console.log(response);
     }).catch(errors => {
       console.log("Sorry");
       console.log(errors);
     });
+  }
+
+  fadeOut(e) {
+    e.classList.add("fade-out");
   }
 
 }
