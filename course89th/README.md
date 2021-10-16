@@ -1,4 +1,4 @@
-Quick Note About The Next Lesson
+# Quick Note About The Next Lesson
 In the next lesson, while the code I show on screen is correct,<br>
 I’ve noticed that a very common typo while following along with the video is to type `wp-rest` instead of the desired `wp_rest`
 
