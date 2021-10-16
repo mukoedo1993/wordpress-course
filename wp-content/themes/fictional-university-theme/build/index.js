@@ -5862,45 +5862,67 @@ __webpack_require__.r(__webpack_exports__);
 
 class MyNotes {
   constructor() {
-    this.deleteButton = document.querySelectorAll(".delete-note");
-    this.editButton = document.querySelectorAll(".edit-note");
+    this.deleteButtons = document.querySelectorAll(".delete-note");
+    this.editButtons = document.querySelectorAll(".edit-note");
+    this.updateButtons = document.querySelectorAll(".update-note");
     this.events();
   }
 
   events() {
-    for (var i = 0; i < this.deleteButton.length; i++) {
-      //https://stackoverflow.com/questions/27946703/javascript-foreach-add-addeventlistener-on-all-buttons/27947429
-      this.deleteButton[i].addEventListener("click", e => {
-        this.deleteNote(e);
-      });
-    }
-
-    for (var j = 0; j < this.deleteButton.length; j++) {
-      this.editButton[j].addEventListener("click", e => {
-        this.editNote(e);
-      });
-    }
+    this.deleteButtons.forEach(e => {
+      e.addEventListener("click", el => this.deleteNote(el));
+    });
+    this.editButtons.forEach(e => {
+      e.addEventListener("click", el => this.editNote(el));
+    });
+    this.updateButtons.forEach(e => {
+      e.addEventListener("click", el => this.updateNote(el));
+    });
   } // Methods will go here
 
 
   async editNote(e) {
-    var thisNote = e.target.parentElement;
-    var temp = thisNote.querySelectorAll('.note-title-field, .note-body-field');
+    const thisNote = e.target.parentElement;
 
-    for (var k = 0; k < temp.length; k++) {
-      temp[k].removeAttribute("readonly");
-      temp[k].classList.add("note-active-field");
-    }
-
-    var temp1 = thisNote.querySelectorAll('.update-note');
-
-    for (var s = 0; s < temp1.length; s++) {
-      temp1[s].classList.add("update-note--visible");
+    if (thisNote.hasAttribute("state") && thisNote.getAttribute("state") == "editable") {
+      this.makeNoteReadOnly(thisNote);
+    } else {
+      this.makeNoteEditable(thisNote);
     }
   }
 
+  async makeNoteEditable(thisNote) {
+    const edit_note_icons_after_click = thisNote.querySelectorAll('.edit-note');
+    edit_note_icons_after_click.forEach(e => e.innerHTML = '<i class="fa fa-times" aria-hidden="true"></i> Cancel ');
+    const fields_selected = thisNote.querySelectorAll('.note-title-field, .note-body-field');
+    fields_selected.forEach(e => {
+      e.removeAttribute("readonly");
+      e.classList.add("note-active-field");
+    });
+    const update_note = thisNote.querySelectorAll('.update-note');
+    update_note.forEach(e => {
+      e.classList.add("update-note--visible");
+    });
+    thisNote.setAttribute("state", "editable");
+  }
+
+  async makeNoteReadOnly(thisNote) {
+    const edit_note_icons_after_click = thisNote.querySelectorAll('.edit-note');
+    edit_note_icons_after_click.forEach(e => e.innerHTML = '<i class="fa fa-pencil" aria-hidden="true"></i> Edit ');
+    const fields_selected = thisNote.querySelectorAll('.note-title-field, .note-body-field');
+    fields_selected.forEach(e => {
+      e.setAttribute("readonly", "readonly");
+      e.classList.remove("note-active-field");
+    });
+    const update_note = thisNote.querySelectorAll('.update-note');
+    update_note.forEach(e => {
+      e.classList.remove("update-note--visible");
+    });
+    thisNote.setAttribute("state", "cancel");
+  }
+
   async deleteNote(e) {
-    var thisNote = e.target.parentElement;
+    const thisNote = e.target.parentElement;
     const response = await axios__WEBPACK_IMPORTED_MODULE_0___default()["delete"](`${universityData.root_url}/wp-json/wp/v2/note/${thisNote.getAttribute('data-id')}`, {
       headers: {
         'X-WP-Nonce': universityData.nonce
@@ -5909,6 +5931,28 @@ class MyNotes {
     .then(response => {
       this.fadeOut(thisNote);
       console.log(response);
+    }).catch(errors => {
+      console.log("Sorry");
+      console.log(errors);
+    });
+  }
+
+  async updateNote(e) {
+    const thisNote = e.target.parentElement;
+    const ourUpdatedPost = {
+      title: thisNote.getElementsByClassName("note-title-field")[0].value,
+      content: thisNote.getElementsByClassName("note-body-field")[0].value
+    };
+    console.log(ourUpdatedPost);
+    const response = await axios__WEBPACK_IMPORTED_MODULE_0___default().post(`${universityData.root_url}/wp-json/wp/v2/note/${thisNote.getAttribute('data-id')}`, ourUpdatedPost, {
+      headers: {
+        'X-WP-Nonce': universityData.nonce
+      }
+    } //data as 2nd argument, headers(authorization) ad 3rd argument.
+    ).then(response => {
+      this.makeNoteReadOnly(thisNote);
+      console.log(response);
+      console.log("Congrats");
     }).catch(errors => {
       console.log("Sorry");
       console.log(errors);
