@@ -65,7 +65,13 @@ wp_enqueue_style('university_extra_styles', get_theme_file_uri('/build/index.css
 
  #a WP function that allows us to output JS data into HTML source of the webpage.
    wp_localize_script('main-university-js', 'universityData', array(
-    'root_url' => get_site_url()
+    'root_url' => get_site_url(),
+    
+    /*
+     * Whenever we successfullt logged into the WP, if we check the source, there will be secret
+     * attribute named nonce, 
+    */
+    'nonce' => wp_create_nonce('wp_rest')
    )); //first argument: the JS file you are trying to make flexible. second 
    //argument: variable name, third argument: array of data we want to make available in JS.
 

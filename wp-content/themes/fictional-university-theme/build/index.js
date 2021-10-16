@@ -5745,6 +5745,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_MobileMenu__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/MobileMenu */ "./src/modules/MobileMenu.js");
 /* harmony import */ var _modules_HeroSlider__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/HeroSlider */ "./src/modules/HeroSlider.js");
 /* harmony import */ var _modules_Search__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/Search */ "./src/modules/Search.js");
+/* harmony import */ var _modules_MyNotes__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/MyNotes */ "./src/modules/MyNotes.js");
  // Our modules / classes
 
 
@@ -5759,11 +5760,13 @@ navigation menu.
 JS that powers the slideshow at the bottom of our homepage.
 */
 
+
  // Instantiate a new object using our modules/classes
 
 const mobileMenu = new _modules_MobileMenu__WEBPACK_IMPORTED_MODULE_1__["default"]();
 const heroSlider = new _modules_HeroSlider__WEBPACK_IMPORTED_MODULE_2__["default"]();
 const search = new _modules_Search__WEBPACK_IMPORTED_MODULE_3__["default"]();
+const myNotes = new _modules_MyNotes__WEBPACK_IMPORTED_MODULE_4__["default"]();
 
 /***/ }),
 
@@ -5836,6 +5839,58 @@ class MobileMenu {
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (MobileMenu);
+
+/***/ }),
+
+/***/ "./src/modules/MyNotes.js":
+/*!********************************!*\
+  !*** ./src/modules/MyNotes.js ***!
+  \********************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+//Ref: https://stackoverflow.com/questions/45650729/wp-json-api-returns-401-on-post-edit-with-react-and-nonce
+
+/*
+* I used Jquery-free code to follow Mr. Brad's course.
+*
+*/
+
+
+class MyNotes {
+  constructor() {
+    this.deleteButton = document.querySelector(".delete-note");
+    this.events();
+  }
+
+  events() {
+    this.deleteButton.addEventListener("click", () => {
+      this.deleteNote();
+    });
+  } // Methods will go here
+
+
+  async deleteNote() {
+    const response = await axios__WEBPACK_IMPORTED_MODULE_0___default()["delete"](universityData.root_url + '/wp-json/wp/v2/note/116', {
+      headers: {
+        'X-WP-Nonce': universityData.nonce
+      }
+    }) //Authorization here.
+    .then(response => {
+      console.log("Congrats");
+      console.log(response);
+    }).catch(errors => {
+      console.log("Sorry");
+      console.log(errors);
+    });
+  }
+
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (MyNotes);
 
 /***/ }),
 
