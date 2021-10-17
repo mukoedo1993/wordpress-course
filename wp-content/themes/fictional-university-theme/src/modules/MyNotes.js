@@ -8,6 +8,10 @@ import axios from "axios"
 
 class MyNotes {
   constructor() {
+    this.title_temp = ""
+
+    this.content_temp = ""
+
     this.allMyNotes = document.querySelectorAll("#my-notes")
 
     //this.deleteButtons = document.querySelectorAll(".delete-note")
@@ -57,8 +61,17 @@ class MyNotes {
 
     if (thisNote.hasAttribute("state") && thisNote.getAttribute("state") == "editable") {
       this.makeNoteReadOnly(thisNote)
+
+      //If user stop editing, we want the value of title and content to be reverted to the original values.
+      thisNote.getElementsByClassName("note-title-field")[0].value = this.title_temp
+      thisNote.getElementsByClassName("note-body-field")[0].value = this.content_temp
+
+      this.title_temp = ""
+      this.content_temp = ""
     } else {
       this.makeNoteEditable(thisNote)
+      this.title_temp = thisNote.getElementsByClassName("note-title-field")[0].value
+      this.content_temp = thisNote.getElementsByClassName("note-body-field")[0].value
     }
   }
 
@@ -122,7 +135,7 @@ class MyNotes {
     }
     console.log(ourUpdatedPost)
 
-    const response = await axios
+    await axios
       .post(
         `${universityData.root_url}/wp-json/wp/v2/note/${thisNote.getAttribute("data-id")}`,
         ourUpdatedPost,
@@ -145,11 +158,10 @@ class MyNotes {
     const ourNewPost = {
       title: document.getElementsByClassName("new-note-title")[0].value,
       content: document.getElementsByClassName("new-note-body")[0].value,
-      status: "publish",
+      status: "publish", //not vis
     }
     console.log(ourNewPost)
 
-    //const response =
     await axios
       .post(
         `${universityData.root_url}/wp-json/wp/v2/note/`, //We don't need a specified id here.

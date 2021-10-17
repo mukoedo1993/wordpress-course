@@ -103,6 +103,10 @@ register_post_type('event',array(
 
 #  Note Post Type 
  register_post_type('note',array(
+ 
+  'capability_type' => 'note',	//Set up brand new permissions only apply to this post type.
+  'map_meta_cap' => true,	//enforce and require permission at the right time
+
 
   'show_in_rest' => true, //to show this URL, note, in our customized rest API(in course 86th)
 

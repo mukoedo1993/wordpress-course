@@ -5862,6 +5862,8 @@ __webpack_require__.r(__webpack_exports__);
 
 class MyNotes {
   constructor() {
+    this.title_temp = "";
+    this.content_temp = "";
     this.allMyNotes = document.querySelectorAll("#my-notes"); //this.deleteButtons = document.querySelectorAll(".delete-note")
     //this.editButtons = document.querySelectorAll(".edit-note")
     //this.updateButtons = document.querySelectorAll(".update-note")
@@ -5901,9 +5903,16 @@ class MyNotes {
     const thisNote = e.target.parentElement;
 
     if (thisNote.hasAttribute("state") && thisNote.getAttribute("state") == "editable") {
-      this.makeNoteReadOnly(thisNote);
+      this.makeNoteReadOnly(thisNote); //If user stop editing, we want the value of title and content to be reverted to the original values.
+
+      thisNote.getElementsByClassName("note-title-field")[0].value = this.title_temp;
+      thisNote.getElementsByClassName("note-body-field")[0].value = this.content_temp;
+      this.title_temp = "";
+      this.content_temp = "";
     } else {
       this.makeNoteEditable(thisNote);
+      this.title_temp = thisNote.getElementsByClassName("note-title-field")[0].value;
+      this.content_temp = thisNote.getElementsByClassName("note-body-field")[0].value;
     }
   }
 
@@ -5960,7 +5969,7 @@ class MyNotes {
       content: thisNote.getElementsByClassName("note-body-field")[0].value
     };
     console.log(ourUpdatedPost);
-    const response = await axios__WEBPACK_IMPORTED_MODULE_0___default().post(`${universityData.root_url}/wp-json/wp/v2/note/${thisNote.getAttribute("data-id")}`, ourUpdatedPost, {
+    await axios__WEBPACK_IMPORTED_MODULE_0___default().post(`${universityData.root_url}/wp-json/wp/v2/note/${thisNote.getAttribute("data-id")}`, ourUpdatedPost, {
       headers: {
         "X-WP-Nonce": universityData.nonce
       }
@@ -5979,10 +5988,10 @@ class MyNotes {
     const ourNewPost = {
       title: document.getElementsByClassName("new-note-title")[0].value,
       content: document.getElementsByClassName("new-note-body")[0].value,
-      status: "publish"
-    };
-    console.log(ourNewPost); //const response =
+      status: "publish" //not vis
 
+    };
+    console.log(ourNewPost);
     await axios__WEBPACK_IMPORTED_MODULE_0___default().post(`${universityData.root_url}/wp-json/wp/v2/note/`, //We don't need a specified id here.
     ourNewPost, {
       headers: {
