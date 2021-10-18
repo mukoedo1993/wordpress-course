@@ -1,0 +1,2 @@
+Quick Note About CSS
+Remember that bit of CSS code in css/modules/my-notes.css that we commented out a while ago? In the next lesson we setup a version of our My-Notes feature that doesn’t use jQuery, and so we’ll want that CSS back to power our animations. You can simply remove the /* and */ comments surrounding the block of code at the bottom of the CSS file.
