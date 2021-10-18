@@ -26,6 +26,7 @@ pageDASHmyDASHnotesDOTPhp
     		<input class="new-note-title" placeholder="title">
     		<textarea class="new-note-body" placeholder="Your note here."> </textarea>
     		<span class="submit-note"> Create Note </span>
+    		<span class="note-limit-message">Note limit reached: delete existing note to make room for new one.</span>
     		
     	</div>
     

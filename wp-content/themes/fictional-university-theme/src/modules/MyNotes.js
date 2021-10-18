@@ -119,6 +119,14 @@ class MyNotes {
       .then((response) => {
         this.fadeOut(thisNote)
         console.log(response)
+        
+         if (response.data.userNoteCount < 5) {
+         const toDisableActiveClassHere = document.querySelectorAll('.note-limit-message');
+         toDisableActiveClassHere.forEach(el => {
+         	el.classList.remove("active");
+         });
+        } 
+        
       })
       .catch((errors) => {
         console.log("Sorry")
@@ -172,6 +180,15 @@ class MyNotes {
       )
       .then((response) => {
         console.log(response)
+        
+        if(response.data == 'You have reached your note limits') {
+         const toEnableActiveClassHere = document.querySelectorAll('.note-limit-message');
+         toEnableActiveClassHere.forEach(el => {
+         	el.classList.add("active");
+         });
+        }
+        
+        
         const newTitleAndBody = document.querySelectorAll(".new-note-title, .new-note-body")
         newTitleAndBody.forEach((el) => (el.value = ""))
         const my_notes = document.getElementById("my-notes")
@@ -188,6 +205,7 @@ class MyNotes {
         )
       })
       .catch((errors) => {
+      	
         console.log("Sorry")
         console.log(errors)
       })

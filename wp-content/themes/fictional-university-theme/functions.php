@@ -4,8 +4,12 @@
 require get_theme_file_path('/inc/search-route.php');
 
 function university_custom_rest() {
-	register_rest_field('post', 'authorName', array(
+	register_rest_field('post', 'authorName', array(	//require rest API to give us author name for each post.
 	  'get_callback' => function() {return get_the_author();}
+	));
+	
+	register_rest_field('note', 'userNoteCount', array(	//require rest API to give us author name for each post.
+	  'get_callback' => function() {return count_user_posts(get_current_user_id() , 'note');}
 	));
 	
 	
@@ -198,16 +202,20 @@ function ourLoginTitle() {
 }
 
 //Force note posts to be private
-add_filter('wp_insert_post_data', 'makeNotePrivate');
+add_filter('wp_insert_post_data', 'makeNotePrivate', 10, 2); //3rd argument: the priority number: 
+//which function(2nd argument) to run first. The larger the priority number, the latter the function runs. 4th argument: number of arguments
 
-function makeNotePrivate($data) {
+function makeNotePrivate($data, $postarr) {
   if($data['post_type'] == 'note' ) {
+  	if(count_user_posts(get_current_user_id() , 'note') > 4 and !$postarr['ID'] ) {
+  		die('You have reached your note limits');
+  	}
     $data['post_content'] = sanitize_textarea_field( $data['post_content']);//strip even basic HTML (best for textarea HTML field)
     $data['post_title'] = sanitize_text_field( $data['post_title']);//strip even basic HTML (best for input HTML field)
   }
 
-  if ($data['post_type'] == 'note' AND $data['post_type'] != 'trash') {
-  $data['post_status'] = 'private';
+  if ($data['post_type'] == 'note' and $data['post_status'] != 'trash') {
+   $data['post_status'] = 'private';
   }
   return $data;
 }
