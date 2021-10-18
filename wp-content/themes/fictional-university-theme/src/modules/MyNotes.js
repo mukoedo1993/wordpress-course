@@ -29,7 +29,7 @@ class MyNotes {
     console.log(this.allMyNotes)
     this.allMyNotes.forEach((e) => {
       e.addEventListener("click", (el) => {
-        if (this.hasClass(el.target, "delete-note")) {
+        if (this.hasClass(el.target, "delete-note") || this.hasClass(el.target, "fa-trash-o")) {
           this.deleteNote(el)
         }
       })
@@ -37,7 +37,7 @@ class MyNotes {
 
     this.allMyNotes.forEach((e) => {
       e.addEventListener("click", (el) => {
-        if (this.hasClass(el.target, "edit-note")) {
+        if (this.hasClass(el.target, "edit-note") || this.hasClass(el.target, "fa-pencil") || this.hasClass(el.target, "fa-pencil-cancel")) {
           this.editNote(el)
         }
       })
@@ -57,7 +57,7 @@ class MyNotes {
   // Methods will go here
 
   async editNote(e) {
-    const thisNote = e.target.parentElement
+    const thisNote = this.findNearestParentLi(e.target);
 
     if (thisNote.hasAttribute("state") && thisNote.getAttribute("state") == "editable") {
       this.makeNoteReadOnly(thisNote)
@@ -77,7 +77,7 @@ class MyNotes {
 
   async makeNoteEditable(thisNote) {
     const edit_note_icons_after_click = thisNote.querySelectorAll(".edit-note")
-    edit_note_icons_after_click.forEach((e) => (e.innerHTML = '<i class="fa fa-times" aria-hidden="true"></i> Cancel '))
+    edit_note_icons_after_click.forEach((e) => (e.innerHTML = '<i class="fa fa-times fa-pencil-cancel" aria-hidden="true"></i> Cancel '))
 
     const fields_selected = thisNote.querySelectorAll(".note-title-field, .note-body-field")
     fields_selected.forEach((e) => {
@@ -95,7 +95,7 @@ class MyNotes {
 
   async makeNoteReadOnly(thisNote) {
     const edit_note_icons_after_click = thisNote.querySelectorAll(".edit-note")
-    edit_note_icons_after_click.forEach((e) => (e.innerHTML = '<i class="fa fa-pencil" aria-hidden="true"></i> Edit '))
+    edit_note_icons_after_click.forEach((e) => (e.innerHTML = '<i class="fa fa-pencil fa-pencil-edit" aria-hidden="true"></i> Edit </span>'));
 
     const fields_selected = thisNote.querySelectorAll(".note-title-field, .note-body-field")
     fields_selected.forEach((e) => {
@@ -113,6 +113,8 @@ class MyNotes {
 
   async deleteNote(e) {
     const thisNote = this.findNearestParentLi(e.target); //Corner case: the icon near the delay atucally belongs to different elements. However their common 
+    console.log(thisNote)
+    console.log(e.target)
 
     const response = await axios
       .delete(`${universityData.root_url}/wp-json/wp/v2/note/${thisNote.getAttribute("data-id")}`, { headers: { "X-WP-Nonce": universityData.nonce } }) //Authorization here.

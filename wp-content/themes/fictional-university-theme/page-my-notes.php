@@ -44,7 +44,7 @@ pageDASHmyDASHnotesDOTPhp
 				 
   	   		<input readonly class="note-title-field" value="<?php echo str_replace( 'Private: ' , '', esc_attr(get_the_title())); 
 					 //replace the 1st argument within 3rd argument with 2nd argument.?>">
-  	   		<span class="edit-note"><i class="fa fa-pencil" aria-hidden="true"></i> Edit </span>
+  	   		<span class="edit-note"><i class="fa fa-pencil fa-pencil-edit" aria-hidden="true"></i> Edit </span>
   	   		<span class="delete-note"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete </span>
   	   		<textarea readonly class="note-body-field"><?php echo esc_textarea(wp_strip_all_tags(get_the_content()));?></textarea>
   	   		<span class="update-note btn btn--blue btn--small"><i class="fa fa-arrow-right" aria-hidden="true"></i> Save </span>
