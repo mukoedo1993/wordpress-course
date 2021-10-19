@@ -132,6 +132,40 @@ register_post_type('event',array(
   'menu_icon' => 'dashicons-welcome-write-blog' 
  
 ));
+
+
+#	Like Post type
+ register_post_type('like',array(
+ 
+
+	/*
+	capability_type and map_meta_cap not needed any more. We deal with them on our own.
+	*/
+
+  //'show_in_rest' => false,
+
+  'supports' => array('title'), 
+
+  //'rewrite' => array('slug' => 'professors'), //we do not need to rewrite the slug(url)
+
+  //'has_archive' is not needed here. Because professor doesn't need archive.
+ 
+  'public' => false,
+  
+  'show_ui' => true, 
+  'labels' => array(
+ 
+    'name' => 'Likes',
+    'add_new_item' => 'Add New Like',
+    'edit_item' => 'Edit Like',
+    'all_items' => 'All Like',
+    'singular_name' => 'Like'
+ 
+  ), 
+ 
+  'menu_icon' => 'dashicons-heart' 
+ 
+));
 }
  
 add_action('init', 'university_post_types');

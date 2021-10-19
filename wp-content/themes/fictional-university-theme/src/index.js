@@ -18,10 +18,13 @@ import Search from "./modules/Search"
 
 import MyNotes from "./modules/MyNotes"
 
+import Like from "./modules/Like"
+
 // Instantiate a new object using our modules/classes
 const mobileMenu = new MobileMenu()
 const heroSlider = new HeroSlider()
 
 const search = new Search()
+const like = new Like()
 
 const myNotes = new MyNotes()
