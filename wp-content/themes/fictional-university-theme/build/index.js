@@ -5847,11 +5847,29 @@ class Like {
   }
 
   createLike() {
-    alert("create test message");
+    jquery__WEBPACK_IMPORTED_MODULE_0___default().ajax({
+      url: universityData.root_url + '/wp-json/university/v1/manageLike',
+      type: 'POST',
+      success: response => {
+        console.log(response);
+      },
+      error: err => {
+        console.log(err);
+      }
+    });
   }
 
   deleteLike() {
-    alert("delete test message");
+    jquery__WEBPACK_IMPORTED_MODULE_0___default().ajax({
+      url: universityData.root_url + '/wp-json/university/v1/manageLike',
+      type: 'DELETE',
+      success: response => {
+        console.log(response);
+      },
+      error: err => {
+        console.log(err);
+      }
+    });
   }
 
 }
