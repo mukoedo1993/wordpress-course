@@ -9,6 +9,7 @@ function universityLikeRoutes() {
   	'callback' => 'createLike'
   ));	//first argument: beginning part of URL, known as namespace.
   	//second argument: name for this specific route, or URL.
+  	//callback function will be passed with data
   	
    register_rest_route('university/v1', 'manageLike', array(
   	'methods' => 'DELETE',
@@ -18,8 +19,17 @@ function universityLikeRoutes() {
 }
 
 
-function createLike() {
-	return 'Thanks for trying to create a like';
+function createLike($data) {
+	$professor = sanitize_text_field($data['professorId']);
+
+	wp_insert_post(array(
+		'post_type' => 'like',
+		'post_status' => 'publish',
+		'post_title' => '2nd PHP Test',
+		'meta_input' => array(	// meta-keyname ARROW meta-value
+		  'liked_professor_id' => $professor
+		)	
+	));
 }
 
 function deleteLike() {
