@@ -43,7 +43,7 @@ function createLike($data) {
 		'post_title' => '2nd PHP Test',
 		'meta_input' => array(	// meta-keyname ARROW meta-value
 		  'liked_professor_id' => $professor
-		)	
+		)	//return value: Return (int|WP_Error) The post ID on success. The value 0 or WP_Error on failure.
 	));
 	} else {
 		die("Invalid profesor id");
@@ -56,6 +56,16 @@ function createLike($data) {
 
 }
 
-function deleteLike() {
-	return 'Thanks for trying to delete a like';
+function deleteLike($data) {
+	$likeId = sanitize_text_field($data['like']);
+	if(get_current_user_id() == get_post_field('post_author', $likeId) and get_post_type($likeId) == 'like') {
+	//get_post_field: 2nd argument: the ID of post you want information about. 1st argument: author of the post.
+	
+	wp_delete_post($likeId, true);
+	
+	return get_post_type($likeId);	//
+	} else {
+		die("You do not have permission to delete that.");
+	}
+	
 }
