@@ -1,0 +1,20 @@
+You must be a web developer to change the slideshow. But it would be nice if anyone on
+our team or at our company could update the slideshow. You shouldn't need to be a web developer to
+change the text orto make button point to a new page or to upload a new photograph.
+
+First chanllege, make the slideshow editable from within the WP admin dashboard.
+
+Option 1: create a new custom post type. custom fields: slide title, slide subtitle, slide link text and slide link value and slide photograph. In this strategy, each slide will be its own post. 
+
+Option 2: rely on a page instead of a custom post type. (Not possible, because it requires costly ACF pro plugin, 49usd a year!)
+
+
+----------------------------------------
+Soln:
+Ref.: Malinovic (step 1 to step 4)
+1. register a new custom post type. see mu-plugin folder. (Notice that we also have to set capability properly so the plugin roles could deal with this custom post correctly.)
+2. DON'T FORGET TO UPDATE PERMALINK SYSTEM
+3. Use ACF to create a new field system. Here, See the icon custom-field.
+4. See front-page.php file. Replace the slide part with current code.
+5. Grant permission of all operations on slides to the new role, designer.
+ 

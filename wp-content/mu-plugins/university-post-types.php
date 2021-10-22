@@ -158,12 +158,44 @@ register_post_type('event',array(
     'name' => 'Likes',
     'add_new_item' => 'Add New Like',
     'edit_item' => 'Edit Like',
-    'all_items' => 'All Like',
+    'all_items' => 'All Likes',
     'singular_name' => 'Like'
  
   ), 
  
   'menu_icon' => 'dashicons-heart' 
+ 
+));
+
+
+
+ register_post_type('slide',array(
+
+# Slide Post Type
+
+  'capability_type' => 'slide', //for the roles plugin to work.
+  'map_meta_cap' => true,//force the former line of code to execute
+
+  'supports' => array('title', 'editor'),
+
+  'rewrite' => array('slug' => 'slide'),//so we could use<domain>/slide to visit all events here, rather than ../event
+
+  'has_archive' => false,
+ 
+  'public' => true,
+  
+  'show_in_rest' => false,	//hopefully, everything could be solved within the WP GUI.
+  'labels' => array(
+ 
+    'name' => 'Slides',
+    'add_new_item' => 'Add New Slide',
+    'edit_item' => 'Edit Slide',
+    'all_items' => 'All Slides',
+    'singular_name' => 'Slide'
+ 
+  ), //sidebar using Events now; and add new event is displayed rather than add new post.
+ 
+  'menu_icon' => 'dashicons-slides' //dashicons-awards
  
 ));
 }

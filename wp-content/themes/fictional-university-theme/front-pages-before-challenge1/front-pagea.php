@@ -119,7 +119,7 @@ On the other hand, if a function begins with the word the , that means wordpress
 		$image = get_field('background_slide');
 		$s_title = get_field('slide_subtitle');
 		$s_subtitle = get_field('slide_title');
-		    if( !empty($image) )	//To set the image to be displayed properly
+		
 		?>
 		
 	<div class="hero-slider__slide" style="background-image: url(<?php echo $image['url'];?>)">
@@ -127,7 +127,7 @@ On the other hand, if a function begins with the word the , that means wordpress
               <div class="hero-slider__overlay">
                 <h2 class="headline headline--medium t-center"><?php echo $s_title; ?></h2>
                 <p class="t-center"><?php echo $s_subtitle; ?></p>
-                <p class="t-center no-margin"><a href="<?echo get_permalink(); ?>" class="btn btn--blue">Learn more</a></p>
+                <p class="t-center no-margin"><a href="#" class="btn btn--blue">Learn more</a></p>
               </div>
             </div>
           </div>

@@ -9,9 +9,12 @@ function university_custom_rest() {
 	  'get_callback' => function() {return get_the_author();}
 	));
 	
-	register_rest_field('note', 'userNoteCount', array(	//require rest API to give us author name for each post.
+	register_rest_field('note', 'userNoteCount', array(	//require rest API to give us userNoteCount for each note.
 	  'get_callback' => function() {return count_user_posts(get_current_user_id() , 'note');}
 	));
+	
+	
+	
 	
 	
 }

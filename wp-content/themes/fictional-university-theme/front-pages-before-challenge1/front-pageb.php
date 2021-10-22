@@ -5,9 +5,7 @@
 //To echo or not to echo:
 /*
 rule of thumb:
-
 If a wordpress begins with the word get, it will not going to echo anything for you.
-
 On the other hand, if a function begins with the word the , that means wordpress will indeed handle echoing and outputting it onto the page for you.
 */
  ?>
@@ -99,49 +97,40 @@ On the other hand, if a function begins with the word the , that means wordpress
     </div>
 
     <div class="hero-slider">
-     <div data-glide-el="track" class="glide__track">
-      <div class="glide__slides">
-     <?php //
-     	$slides = new WP_Query(
-		 array(
-		   'posts_per_page' => -1, 
-		    'post_type' => 'slide',
-		  
-		    'orderby' => 'title', //orderby number
-		    'order' => 'ASC',//'DESC' means descending, 'ASC' means ascending.    
-		 ));
-		 
-		
-		 
-	while($slides->have_posts()){
-		$slides->the_post();
-		
-		$image = get_field('background_slide');
-		$s_title = get_field('slide_subtitle');
-		$s_subtitle = get_field('slide_title');
-		    if( !empty($image) )	//To set the image to be displayed properly
-		?>
-		
-	<div class="hero-slider__slide" style="background-image: url(<?php echo $image['url'];?>)">
+      <div data-glide-el="track" class="glide__track">
+        <div class="glide__slides">
+          <div class="hero-slider__slide" style="background-image: url(<?php echo get_theme_file_uri('/images/bus.jpg')// This wordpress function will generate the path to our theme folder all on its own. ?>)">
             <div class="hero-slider__interior container">
               <div class="hero-slider__overlay">
-                <h2 class="headline headline--medium t-center"><?php echo $s_title; ?></h2>
-                <p class="t-center"><?php echo $s_subtitle; ?></p>
-                <p class="t-center no-margin"><a href="<?echo get_permalink(); ?>" class="btn btn--blue">Learn more</a></p>
+                <h2 class="headline headline--medium t-center">Free Transportation</h2>
+                <p class="t-center">All students have free unlimited bus fare.</p>
+                <p class="t-center no-margin"><a href="#" class="btn btn--blue">Learn more</a></p>
               </div>
             </div>
           </div>
-		<?php
-		
-	}
-     ?>
+          <div class="hero-slider__slide" style="background-image: url(<?php echo get_theme_file_uri('/images/apples.jpg')// This wordpress function will generate the path to our theme folder all on its own. ?>)">
+            <div class="hero-slider__interior container">
+              <div class="hero-slider__overlay">
+                <h2 class="headline headline--medium t-center">An Apple a Day</h2>
+                <p class="t-center">Our dentistry program recommends eating apples.</p>
+                <p class="t-center no-margin"><a href="#" class="btn btn--blue">Learn more</a></p>
+              </div>
+            </div>
+          </div>
+          <div class="hero-slider__slide" style="background-image: url(<?php echo get_theme_file_uri('/images/bread.jpg')?>)">
+            <div class="hero-slider__interior container">
+              <div class="hero-slider__overlay">
+                <h2 class="headline headline--medium t-center">Free Food</h2>
+                <p class="t-center">Fictional University offers lunch plans for those in need.</p>
+                <p class="t-center no-margin"><a href="#" class="btn btn--blue">Learn more</a></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="slider__bullets glide__bullets" data-glide-el="controls[nav]"></div>
       </div>
-       <div class="slider__bullets glide__bullets" data-glide-el="controls[nav]"></div>
-      </div>
-     </div>
     </div>
 
 <?php	
-    
 	get_footer();
 ?>
