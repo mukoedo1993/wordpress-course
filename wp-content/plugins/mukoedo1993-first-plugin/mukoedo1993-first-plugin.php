@@ -8,20 +8,32 @@
   Author URI: https://github.com/mukoedo1993
 */
 
+//Wrap our methods in a class: benefits <= names of function could be much simpler compared to the case we place all functions in global scope.
 
-add_filter('the_content', 'addToEndOfPost'); 
-//dynamically add a sentence to the very end of a blog post for
-// the permalink or single view of posts.
-
-function addToEndOfPost($content) {	//receive the default content given by the WP. 
-	if (is_single() and is_main_query()) {
-		return $content . '<p>My name is Tom Kimi.</p>';
+class WordCountAndTimePlugin {
+	function __construct() {
+		add_action('admin_menu', array( $this , 'adminPage'));	//2nd argument must be a unique name for a function that has never been used by any other plugin. i.e.: $this=>adminPage();
 	}
-	else
-	{
-		
-		return $content;
-	}
- 
+	
+	function adminPage () {
+	add_options_page('Word Count Settings', 'Word Count', 'manage_options', 'word-count-settings-page', array($this, 'ourHTML'));	//first argument: title of page we want to create;
+	// second argument: text of title we use in the settings menu
+	// third argument:  let only current user to see the page. 
+	// fourth argument: end of URL for our settings page (slug)
+	// fifth argument: function to produce HTML
 }
+
+	function ourHTML () { ?>
+	<div class="wrap">
+		<h1>Word Count Settings</h1>
+	</div>
+<?php 
+}
+}
+
+$wordCountAndTimePlugin = new WordCountAndTimePlugin();
+
+
+
+
 ?>
