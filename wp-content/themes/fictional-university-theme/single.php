@@ -1,4 +1,4 @@
-SINGLE_PHP_HERE!
+SINGLEdotPHPisHERE!
 <?php //After you click a post's permalink, you would view this page. For and ONLY for pure individual post's link. Any other kind of individual post is not rendered here.
 	
 	get_header();	

@@ -173,8 +173,8 @@ register_post_type('event',array(
 
 # Slide Post Type
 
-  'capability_type' => 'slide', //for the roles plugin to work.
-  'map_meta_cap' => true,//force the former line of code to execute
+  'capability_type' => 'slide', //for the roles plugin to work.//https://developer.wordpress.org/reference/functions/register_post_type/#capability_type
+  'map_meta_cap' => true, //force the former line of code to execute
 
   'supports' => array('title', 'editor'),
 
