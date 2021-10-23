@@ -6,6 +6,8 @@
   Version: 1.0
   Author: TomKimi
   Author URI: https://github.com/mukoedo1993
+  Text Domain: kanashimino93wcpdomain
+  Domain Path: /languages
 */
 
 //Wrap our methods in a class: benefits <= names of function could be much simpler compared to the case we place all functions in global scope.
@@ -17,6 +19,12 @@ class WordCountAndTimePlugin {
 		add_action('admin_init', array( $this, 'settings'));
 		
 		add_filter('the_content', array($this, 'ifWrap')); //filter the content for our post.
+		
+		add_action('init', array($this, 'languages'));
+	}
+	
+	function languages() {
+		load_plugin_textdomain('kanashimino93wcpdomain', false, dirname(plugin_basename(__FILE__)) . '/languages');
 	}
 	
 	function ifWrap ($content) {
@@ -42,7 +50,7 @@ class WordCountAndTimePlugin {
 		}
 		
 		if (get_option('wcp_wordcount', '1')) {
-		  $html .= 'This post has ' . $wordCount . ' words.<br>';
+		  $html .= esc_html__('This post has', 'kanashimino93wcpdomain'). ' ' . $wordCount . ' '. esc_html__('words', 'kanashimino93wcpdomain') .'<br>';
 		  
 		}
 		
@@ -159,8 +167,9 @@ class WordCountAndTimePlugin {
 	<?php } */
 	
 	function adminPage () {
-		add_options_page('Word Count Settings', 'Word Count', 'manage_options', 'word-count-settings-page', array($this, 'ourHTML'));	//first argument: title of page we want to create;
-	// second argument: text of title we use in the settings menu
+		add_options_page('Word Count Settings', __('Word Count', 'kanashimino93wcpdomain') , 'manage_options', 'word-count-settings-page', array($this, 'ourHTML'));	//first argument: title of page we want to create;
+	// second argument: text of title we use in the settings menu; 1st param is in English, 2nd param is 
+	// ... text domain preparing for localization.
 	// third argument:  let only current user to see the page. 
 	// fourth argument: end of URL for our settings page (slug)
 	// fifth argument: function to produce HTML
