@@ -58,13 +58,40 @@ class OurWordFilterPlugin {
   
   }
   
+  function handleForm() {
+  
+  	if (wp_verify_nonce($_POST['ourNonce'], 'saveFilterWords') and current_user_can('manage_options')) 
+  	//wp_verify_nonce(): 1st arg: the nonce value we saw on our browser; 2nd arg: action name we made up.
+  	//current_user_can(): 
+  	{	
+  	update_option('plugin_words_to_filter', sanitize_text_field($_POST['plugin_words_to_filter']) );
+   /*
+   * 1st param: name of option we want to store this value as in the Database.
+   * 2nd param: the value we want to store in database.
+   */
+    ?>
+    <div class="updated">
+     <p>Your filtered words were saved. </p>
+    </div>
+   <?php
+  	} else { ?>
+	  	<div class="error">
+	  		<p>Sorry, you don't have permission to do this operation.</p>
+	  	</div>
+  	<?php }
+    }
+    
+  
   function wordFilterPage() { ?>
   	<div class="wrap">
   	<h1>Word Filter</h1>
+  	<?php if ($_POST['justsubmitted'] == "true") $this->handleForm() ?>
   	<form method="POST">
+  	 <input type="hidden" name="justsubmitted" value="true">
+  	   <?php wp_nonce_field('saveFilterWords', 'ourNonce'); ?>
   		<label for="plugin_words_to_filter"><p>Enter a <strong >comma-separated list of words to filter from your site's content.</strong> </p></label>
   		<div class="word-filter__flex-container">
-			<textarea name="plugin_words_to_filter" id="plugin_words_to_filter" placeholder="bad, mean, awful, horrible"></textarea>  		
+			<textarea name="plugin_words_to_filter" id="plugin_words_to_filter" placeholder="bad, mean, awful, horrible"><?php echo esc_textarea(get_option('plugin_words_to_filter')); ?></textarea>  		
   		</div>
   		<input type="submit" name="submit" id="submit" class="button button-primary" value="Save Changes">
   	</form>
