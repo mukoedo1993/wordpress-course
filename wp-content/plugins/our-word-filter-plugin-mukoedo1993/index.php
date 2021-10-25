@@ -1,6 +1,6 @@
 <?php
 /*
-  Plugin Name: Our Word Filter Plugin
+  Plugin Name: Our Word Filter Plugin mukoedo1993
   Description: A plugin to filter dirty words, like what China do.
   Version: 1.0
   Author: TomKimi
