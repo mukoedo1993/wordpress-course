@@ -31,24 +31,28 @@ function EditComponent (props) {
    
   	return (
   		<div className="paying-attention-edit-block"> 
-  		 <TextControl label="Question:" />
-  		 <p>Answers: </p>
+  		 <TextControl label="Question:" style={{fontSize: "20px"}} />
+  		 <p style={{fontSize: "13px", margin: "20px 0 8px 0"}}>Answers: </p>
   		 <Flex>
   		   <FlexBlock>
   		    <TextControl />
   		   </FlexBlock> 
   		   <FlexItem>
   		    <Button>
-  		      <Icon icon="star-empty" />
+  		      <Icon className="mark-as-correct" icon="star-empty" />
   		    </Button>
   		   </FlexItem>
   		   <FlexItem>
-  		    <Button>Delete</Button>
+  		    <Button isLink className="attention-delete">Delete</Button>
   		   </FlexItem>
   		 </Flex>
+  		  <FlexItem>
+  		    <Button isPrimary>Add another answer</Button>
+  		  </FlexItem>
   		</div>
   	)/*
   	* FlexBlock will take as much area as it can.
   	* FlexItem only takes smallest amount of space they need.
+  	* isLink implies it's a permalink and will underline this element.
   	*/
   }
