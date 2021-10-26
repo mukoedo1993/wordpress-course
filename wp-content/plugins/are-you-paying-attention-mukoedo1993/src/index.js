@@ -39,7 +39,7 @@ function EditComponent (props) {
 		   return (
 		<Flex>
   		   <FlexBlock>
-  		    <TextControl value={answer} onChange={newValue => {
+  		    <TextControl autoFocus={answer == undefined} value={answer} onChange={newValue => {
   		      const newAnswers = props.attributes.answers.concat([])	//deep copy an array
   		      newAnswers[index] = newValue 
   		      console.log(newAnswers[index])
@@ -62,7 +62,7 @@ function EditComponent (props) {
 		 })}
   		  <FlexItem>
   		    <Button isPrimary onClick={() => {
-  		      props.setAttributes({answers: props.attributes.answers.concat([""])})
+  		      props.setAttributes({answers: props.attributes.answers.concat([undefined])/*undefined here is used to differentiate new value with previous values.*/})
   		    }}>Add another answer</Button>
   		  </FlexItem>
   		</div>

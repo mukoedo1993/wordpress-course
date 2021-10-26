@@ -171,6 +171,7 @@ function EditComponent(props) {
     }
   }, "Answers: "), props.attributes.answers.map(function (answer, index) {
     return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Flex, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.FlexBlock, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
+      autoFocus: answer == undefined,
       value: answer,
       onChange: newValue => {
         const newAnswers = props.attributes.answers.concat([]); //deep copy an array
@@ -195,7 +196,9 @@ function EditComponent(props) {
     isPrimary: true,
     onClick: () => {
       props.setAttributes({
-        answers: props.attributes.answers.concat([""])
+        answers: props.attributes.answers.concat([undefined])
+        /*undefined here is used to differentiate new value with previous values.*/
+
       });
     }
   }, "Add another answer")));
