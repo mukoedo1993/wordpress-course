@@ -16,7 +16,11 @@ class AreYouPayingAttention {
      }
      
      function adminAssets() {
-      wp_register_script('ournewblocktype',plugin_dir_url(__FILE__) . 'build/index.js', array('wp-blocks', 'wp-element')); 
+     
+     wp_register_style('quizeditcss',plugin_dir_url(__FILE__) . 'build/index.css'); 
+     //
+     
+      wp_register_script('ournewblocktype',plugin_dir_url(__FILE__) . 'build/index.js', array('wp-blocks', 'wp-element', 'wp-editor')); 
       /*
       * 1st arg: the name we want to give to Javascript
       * 2nd arg: file's URL
@@ -28,7 +32,8 @@ class AreYouPayingAttention {
       //We just need to refresh our frontend to see any change in our code, rather than manually go to the
       //editting page, and save our change manually.
       register_block_type('ourplugin/are-you-paying-attention', array(
-       'editor_script' => 'ournewblocktype',
+       'editor_script' => 'ournewblocktype',	//tell block type to use our js file.
+       'editor_style' => 'quizeditcss',	// tell block type to use our CSS file.
        'render_callback' => array($this, 'theHTML')
       ));
       /*
