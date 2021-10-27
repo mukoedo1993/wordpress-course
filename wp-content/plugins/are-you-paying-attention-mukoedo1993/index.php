@@ -54,7 +54,7 @@ class AreYouPayingAttention {
 
         
      	ob_start(); ?>
-     	<div class="paying-attention-update-me"></div>
+     	<div class="paying-attention-update-me"><pre style="display: none;"><?php echo wp_json_encode($attributes) ?></pre></div> <!--Fetch data from database but do not display it.-->
      	<?php return ob_get_clean();
      }
 }
