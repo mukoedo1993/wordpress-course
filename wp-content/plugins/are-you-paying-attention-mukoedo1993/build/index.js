@@ -118,6 +118,26 @@ __webpack_require__.r(__webpack_exports__);
 
  //npm install here NOT needed. WP team has solved this.
 
+(function () {
+  let locked = false;
+  wp.data.subscribe(function () {
+    //catch any time our block changes. (work with up-to-date data.)
+    const results = wp.data.select("core/block-editor").getBlocks().filter(function (block) {
+      return block.name == "ourplugin/are-you-paying-attention" && block.attributes.correctAnswer == undefined;
+    });
+
+    if (results.length && locked == false) {
+      locked = true;
+      wp.data.dispatch("core/editor").lockPostSaving("noanswer");
+    }
+
+    if (!results.length && locked) {
+      locked = false;
+      wp.data.dispatch("core/editor").unlockPostSaving("noanswer");
+    }
+  });
+})();
+
 wp.blocks.registerBlockType("ourplugin/are-you-paying-attention", {
   title: "Are You Paying Attention?",
   icon: "smiley",
@@ -129,9 +149,13 @@ wp.blocks.registerBlockType("ourplugin/are-you-paying-attention", {
     //source here 
     answers: {
       type: "array",
-      default: ["red", "blue", "green"]
-    } //default here is an array of actual answer strings
-
+      default: [""]
+    },
+    //default here is an array of actual answer strings
+    correctAnswer: {
+      type: "number",
+      default: undefined
+    }
   },
   edit: EditComponent,
   save: function (props) {
@@ -152,6 +176,18 @@ function EditComponent(props) {
     });
     props.setAttributes({
       answers: newAnswers
+    });
+
+    if (indexToDelete == props.attributes.correctAnswer) {
+      props.setAttributes({
+        correctAnswer: undefined
+      }); //Because we've deleted wrong answer here.
+    }
+  }
+
+  function markAsCorrect(index) {
+    props.setAttributes({
+      correctAnswer: index
     });
   }
 
@@ -184,9 +220,11 @@ function EditComponent(props) {
           answers: newAnswers
         });
       }
-    })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.FlexItem, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Button, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Icon, {
+    })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.FlexItem, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Button, {
+      onClick: () => markAsCorrect(index)
+    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Icon, {
       className: "mark-as-correct",
-      icon: "star-empty"
+      icon: props.attributes.correctAnswer == index ? "star-filled" : "star-empty"
     }))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.FlexItem, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Button, {
       isLink: true,
       className: "attention-delete",
