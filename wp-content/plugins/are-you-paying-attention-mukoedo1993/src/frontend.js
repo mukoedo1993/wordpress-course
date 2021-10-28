@@ -8,8 +8,9 @@ const divsToUpdate = document.querySelectorAll(".paying-attention-update-me")
 divsToUpdate.forEach(function(div)/* for each block */ {
 
 	const data = JSON.parse(div.querySelector("pre").innerHTML)
+	console.log(data)
 
-	ReactDOM.render(<Quiz {...data} />, div)
+	ReactDOM.render(<Quiz {...data} />, div) //destructing 
 	div.classList.remove("paying-attention-update-me")
 })
 
@@ -43,7 +44,7 @@ function Quiz(props) {
 	 }
 	}
 	return (
-	 <div className="paying-attention-frontend">
+	 <div className="paying-attention-frontend" style={{backgroundColor: props.bgColor}}>
 	   <p>{props.question}</p>
 	   <ul>
 	    {props.answers.map(function(answer, index) {

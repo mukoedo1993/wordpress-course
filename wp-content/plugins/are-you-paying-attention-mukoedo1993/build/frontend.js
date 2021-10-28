@@ -136,7 +136,9 @@ divsToUpdate.forEach(function (div)
 /* for each block */
 {
   const data = JSON.parse(div.querySelector("pre").innerHTML);
-  react_dom__WEBPACK_IMPORTED_MODULE_2___default().render((0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(Quiz, data), div);
+  console.log(data);
+  react_dom__WEBPACK_IMPORTED_MODULE_2___default().render((0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(Quiz, data), div); //destructing 
+
   div.classList.remove("paying-attention-update-me");
 });
 
@@ -168,7 +170,10 @@ function Quiz(props) {
   }
 
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "paying-attention-frontend"
+    className: "paying-attention-frontend",
+    style: {
+      backgroundColor: props.bgColor
+    }
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, props.question), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("ul", null, props.answers.map(function (answer, index) {
     return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", {
       className: (isCorrectDelayed === true && index == props.correctAnswer ? "no-click" : "") + (isCorrectDelayed == true && index != props.correctAnswer ? "fade-incorrect" : ""),

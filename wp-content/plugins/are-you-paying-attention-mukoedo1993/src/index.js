@@ -1,5 +1,8 @@
 import "./index.scss"
-import {TextControl, Flex, FlexBlock, FlexItem, Button, Icon} from "@wordpress/components"	//npm install here NOT needed. WP team has solved this.
+import {TextControl, Flex, FlexBlock, FlexItem, Button, Icon, PanelBody, PanelRow, ColorPicker} from "@wordpress/components"	//npm install here NOT needed. WP team has solved this.
+
+import {InspectorControls} from "@wordpress/block-editor"
+import {ChromePicker} from "react-color"
 
 (function() {
 	let locked = false
@@ -29,7 +32,8 @@ wp.blocks.registerBlockType("ourplugin/are-you-paying-attention", {
   attributes: {
     question: {type: "string"},	//source here 
     answers: {type: "array", default: [""]}, //default here is an array of actual answer strings
-    correctAnswer: {type: "number", default: undefined}
+    correctAnswer: {type: "number", default: undefined},
+    bgColor: {type: "string", default: "#EBEBEB"} //lightgray by default
   },
   edit: EditComponent,
   save: function (props) {
@@ -63,7 +67,14 @@ function EditComponent (props) {
        }
    
   	return (
-  		<div className="paying-attention-edit-block"> 
+  		<div className="paying-attention-edit-block" style={{backgroundColor: props.attributes.bgColor}}> 
+  		 <InspectorControls>
+  		   <PanelBody title="Background Color" initialOpen={true}>
+  		    <PanelRow>
+  		      <ChromePicker color={props.attributes.bgColor} onChangeComplete={x => props.setAttributes({bgColor: x.hex})} disableAlpha={true/*no alpha transparency*/}/>
+  		    </PanelRow>
+  		   </PanelBody>
+  		 </InspectorControls>
   		 <TextControl label="Question:" value={props.attributes.question} onChange={updateQuestion} style={{fontSize: "20px"}} />
   		 <p style={{fontSize: "13px", margin: "20px 0 8px 0"}}>Answers: </p>
 		 {props.attributes.answers.map(function (answer, index) {
