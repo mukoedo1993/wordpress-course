@@ -1,4 +1,8 @@
 import "./index.scss"
+import {useSelect} from "@wordpress/data"
+console.log(useSelect)
+console.log("nimasile")
+
 
 wp.blocks.registerBlockType("ourplugin/featured-professor", {
   title: "Professor Callout",
@@ -17,14 +21,28 @@ wp.blocks.registerBlockType("ourplugin/featured-professor", {
 })
 
 function EditComponent(props) {
+  const allProfs = useSelect(select => {
+    return select("core").getEntityRecords("postType", "professor", {per_page: -1})
+  })
+  
+  console.log(allProfs)
+
+  if (allProfs == undefined) return <p>Loading...</p>	//for waiting for loading
+  //async: so, if still not loaded, allProfs will be undefined here. But as soon as our code
+  // loaded, our code will be rendered.
+
   return (
     <div className="featured-professor-wrapper">
       <div className="professor-select-container">
         <select onChange={e => props.setAttributes({profId: e.target.value})}>
         <option value="">Select a professor</option>
-        <option value="1" selected={props.attributes.profId == 1}>1</option>
-        <option value="2" selected={props.attributes.profId == 2}>2</option>
-        <option value="3" selected={props.attributes.profId == 3}>3</option>
+	{allProfs.map(prof => {
+	  return (
+	    <option value={prof.id} selected={props.attributes.profId == prof.id}>
+	    {prof.title.rendered}
+	    </option>
+	  )
+	})}
         </select>
       </div>
       <div>
