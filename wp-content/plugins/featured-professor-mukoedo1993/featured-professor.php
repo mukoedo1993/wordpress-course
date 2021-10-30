@@ -14,6 +14,22 @@ require_once plugin_dir_path(__FILE__) . 'inc/generateProfessorHTML.php';
 class FeaturedProfessor {
   function __construct() {
     add_action('init', [$this, 'onInit']);
+    add_action('rest_api_init', [$this, 'profHTML']);
+  }
+
+  function profHTML() {
+    register_rest_route('featuredProfessor/v1', 'getHTML', array(
+      'methods' => WP_REST_SERVER::READABLE,
+      'callback' => [$this, 'getProfHTML']
+    )); 
+    /*
+    * namespace, route-name, arr...
+    */
+  }
+
+  function getProfHTML($data) {
+    return generateProfessorHTML($data['profId']);
+
   }
 
   function onInit() {
