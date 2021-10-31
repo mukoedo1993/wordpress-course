@@ -146,6 +146,7 @@ __webpack_require__.r(__webpack_exports__);
 console.log(_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.useSelect);
 console.log("nimasile");
 wp.blocks.registerBlockType("ourplugin/featured-professor", {
+  // corresponding to register_block_type(...) in featured-professor.php
   title: "Professor Callout",
   description: "Include a short description and link to a professor of your choice",
   icon: "welcome-learn-more",
@@ -167,16 +168,41 @@ wp.blocks.registerBlockType("ourplugin/featured-professor", {
 function EditComponent(props) {
   const [thePreview, setThePreview] = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)("");
   (0,react__WEBPACK_IMPORTED_MODULE_3__.useEffect)(() => {
-    async function go() {
-      const response = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_4___default()({
-        path: `/featuredProfessor/v1/getHTML?profId=${props.attributes.profId}`,
-        method: "GET"
-      });
-      setThePreview(response);
-    }
+    if (props.attributes.profId) {
+      //If profId is undefined, preview should be blank.
+      updateTheMeta();
 
-    go();
+      async function go() {
+        const response = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_4___default()({
+          path: `/featuredProfessor/v1/getHTML?profId=${props.attributes.profId}`,
+          method: "GET"
+        });
+        setThePreview(response);
+      }
+
+      go();
+    }
   }, [props.attributes.profId]);
+  (0,react__WEBPACK_IMPORTED_MODULE_3__.useEffect)(() => {
+    return () => {
+      updateTheMeta();
+    }; //React will call it when this block gets deleted or unmounted.
+  }, []); //empty array
+
+  function updateTheMeta() {
+    const profsForMeta = wp.data.select("core/block-editor").getBlocks().filter(x => x.name == "ourplugin/featured-professor").map(x => x.attributes.profId) //select all block types in the edit screen. Return an array of all of our blocks.
+    //convert a complex array to simple ID numbers.
+    .filter((x, index, arr) => {
+      return arr.indexOf(x) == index; //If the index is the first instance of the values
+    });
+    console.log(profsForMeta);
+    wp.data.dispatch("core/editor").editPost({
+      meta: {
+        featuredprofessor: profsForMeta
+      }
+    });
+  }
+
   const allProfs = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.useSelect)(select => {
     return select("core").getEntityRecords("postType", "professor", {
       per_page: -1

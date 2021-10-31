@@ -7,7 +7,7 @@ import apiFetch from "@wordpress/api-fetch"
 console.log(useSelect)
 console.log("nimasile")
 
-wp.blocks.registerBlockType("ourplugin/featured-professor", {
+wp.blocks.registerBlockType("ourplugin/featured-professor", {	// corresponding to register_block_type(...) in featured-professor.php
   title: "Professor Callout",
   description: "Include a short description and link to a professor of your choice",
   icon: "welcome-learn-more",
@@ -27,16 +27,40 @@ function EditComponent(props) {
   const [thePreview, setThePreview] = useState("")
 
   useEffect(() => {
-  	async function go() {
-  	  const response = await apiFetch({
-  	  	path: `/featuredProfessor/v1/getHTML?profId=${props.attributes.profId}`,
-  	  	method: "GET"
-  	  })
-  	  setThePreview(response)
-  	}
-  	go()
+	if (props.attributes.profId) {	//If profId is undefined, preview should be blank.
+		updateTheMeta()
+	  	async function go() {
+	  	  const response = await apiFetch({
+	  	  	path: `/featuredProfessor/v1/getHTML?profId=${props.attributes.profId}`,
+	  	  	method: "GET"
+	  	  })
+	  	  setThePreview(response)
+	  	}
+	  	go()
+	}
   }, [props.attributes.profId])
-
+  
+  useEffect(() => {
+  	return () => {
+  		updateTheMeta()
+  	}//React will call it when this block gets deleted or unmounted.
+  }, []) //empty array
+  
+  function updateTheMeta() {
+  	const profsForMeta = wp.data.select("core/block-editor")
+  	 .getBlocks()
+  	 .filter(x => x.name == "ourplugin/featured-professor")
+  	 .map(x => x.attributes.profId)
+  		//select all block types in the edit screen. Return an array of all of our blocks.
+  		//convert a complex array to simple ID numbers.
+  	 .filter((x, index, arr) => {
+  	  return arr.indexOf(x) == index	//If the index is the first instance of the values
+  	 })
+  	 console.log(profsForMeta)
+  	wp.data.dispatch("core/editor").editPost({meta: {featuredprofessor: profsForMeta}})
+  
+  }
+  
   const allProfs = useSelect((select) => {
     return select("core").getEntityRecords("postType", "professor", { per_page: -1 })
   })

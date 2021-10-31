@@ -33,6 +33,27 @@ class FeaturedProfessor {
   }
 
   function onInit() {
+  
+    register_meta('post', 'featuredprofessor', array(
+      'show_in_rest' => true,
+       'type' => 'number',
+       'single' => false
+       /*argument:
+       * If you set single as true, in database, WP will try to store an array
+       * of data for the values. But in certain situations that could serialize the
+       * data and then database lookup performance is a bit slower. So, by setting single
+       * to false, we've just saying you don't need to try to save all of the professor ids 
+       * in one row or one entry. Instead, if we had three featured professors in one blog post,
+       * we could have three rows or three entries in database.
+       */
+    )); 
+    /*
+    * 1st param: type of metadata
+    * 2nd param: name of metadata
+    * 3rd param: array of options
+    * 3rd param: 
+    */
+  
     wp_register_script('featuredProfessorScript', plugin_dir_url(__FILE__) . 'build/index.js', array('wp-blocks', 'wp-i18n', 'wp-editor'));
     wp_register_style('featuredProfessorStyle', plugin_dir_url(__FILE__) . 'build/index.css');
 
